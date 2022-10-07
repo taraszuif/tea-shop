@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -21,12 +22,17 @@ public class Tea {
     @NotBlank
     private TeaType type;
     @NotBlank
+    private String name;
+    @NotBlank
+    private String imageUrl;
+    @NotBlank
+    private String description;
+    @NotBlank
     private BigDecimal price;
     @NotBlank
     private int count;
     @NotBlank
     private LocalDateTime addTime;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "rating_id")
-    private Rating rating;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Rating> ratings;
 }
