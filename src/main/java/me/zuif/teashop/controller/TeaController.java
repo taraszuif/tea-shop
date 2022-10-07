@@ -2,6 +2,7 @@ package me.zuif.teashop.controller;
 
 import me.zuif.teashop.model.tea.Tea;
 import me.zuif.teashop.service.impl.TeaService;
+import me.zuif.teashop.validator.TeaValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class TeaController {
     private static final Logger logger = LoggerFactory.getLogger(TeaController.class);
     private final TeaService teaService;
+    private final TeaValidator teaValidator;
 
     @Autowired
-    public TeaController(TeaService teaService) {
+    public TeaController(TeaService teaService, TeaValidator teaValidator) {
         this.teaService = teaService;
 
+        this.teaValidator = teaValidator;
     }
 
     @GetMapping("/tea/new")
@@ -33,6 +36,7 @@ public class TeaController {
 
     @PostMapping("/tea/new")
     public String newTea(@ModelAttribute("teaForm") Tea teaForm, BindingResult bindingResult, Model model) {
+        teaValidator.validate(teaForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
             logger.error(String.valueOf(bindingResult.getFieldError()));
@@ -59,7 +63,8 @@ public class TeaController {
 
     @PostMapping("/tea/edit/{id}")
     public String editTea(@PathVariable("id") String id, @ModelAttribute("teaForm") Tea teaForm, BindingResult bindingResult, Model model) {
- 
+        teaValidator.validate(teaForm, bindingResult);
+
         if (bindingResult.hasErrors()) {
             logger.error(String.valueOf(bindingResult.getFieldError()));
             model.addAttribute("method", "update");
