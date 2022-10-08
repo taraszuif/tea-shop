@@ -1,0 +1,32 @@
+<!doctype HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+</head>
+
+<body>
+<div th:fragment="footer">
+    <div class="container">
+        <footer>
+            <span th:text="#{footer.copyright}"></span>
+            <span>
+                    <a th:href="@{/about}" th:text="#{about.name}"></a>
+                </span>
+            <label>
+                <select class="custom-select" id="select-lang">
+                    <option th:selected="${#locale.getLanguage().toString() == 'en'}" th:text="#{footer.language.en}"
+                            value="eng"></option>
+                    <option th:selected="${#locale.getLanguage().toString() == 'ua'}" th:text="#{footer.language.ua}"
+                            value="ua"></option>
+                </select>
+            </label>
+        </footer>
+    </div>
+    <script th:src="@{webjars/jquery/3.3.1-1/jquery.min.js}" type="text/javascript"></script>
+    <script th:src="@{webjars/bootstrap/4.1.0/js/bootstrap.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/lang.js}" type="text/javascript"></script>
+</div>
+</body>
+
+</html>
