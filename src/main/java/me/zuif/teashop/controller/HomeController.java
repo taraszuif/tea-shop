@@ -30,6 +30,7 @@ public class HomeController {
 
     @RequestMapping("/searchByType")
     public String homePost(@RequestParam("teaType") TeaType teaType, Model model) {
+
         model.addAttribute("teas", teaService.findAllByTeaType(teaType));
         model.addAttribute("teasCount", teaService.count());
         return "home";
