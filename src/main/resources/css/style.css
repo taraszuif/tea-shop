@@ -1,0 +1,67 @@
+html {
+    height: 100%;
+}
+
+body {
+    background: rgb(222, 230, 255);
+    position: relative;
+    margin: 0;
+    padding-bottom: 5rem;
+    min-height: 100%;
+}
+
+span {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    line-height: 25px;
+}
+
+.container {
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.btn {
+    padding-left: 15px;
+}
+
+.alert {
+    padding-top: 10px;
+}
+
+#header-username {
+    color: ghostwhite;
+}
+
+nav {
+    height: 50px;
+}
+
+.navbar-brand {
+    font-size: 25px;
+    padding-left: 7px;
+    padding-right: 10px;
+    transition: all 200ms;
+}
+
+.navbar-brand:hover, .info-slide:active {
+    transform: scale(1.5);
+}
+
+.card-deck {
+    padding-left: 15px;
+}
+
+.card {
+    max-width: 20rem;
+}
+
+#cart {
+    width: 50px;
+    height: 50px;
+}
