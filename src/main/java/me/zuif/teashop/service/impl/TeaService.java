@@ -35,7 +35,7 @@ public class TeaService implements ITeaService {
             found.setPrice(newTea.getPrice());
             found.setCount(newTea.getCount());
             found.setManufacturer(newTea.getManufacturer());
-            found.setType(newTea.getType());
+            found.setTeaType(newTea.getTeaType());
         }
         save(newTea);
     }

@@ -20,7 +20,7 @@ public class Tea {
     @NotBlank
     private String manufacturer;
     @NotBlank
-    private TeaType type;
+    private TeaType teaType;
     @NotBlank
     private String name;
     @NotBlank

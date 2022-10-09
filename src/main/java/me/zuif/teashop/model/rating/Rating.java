@@ -22,8 +22,7 @@ public class Rating {
     @JoinColumn(name = "tea_id")
     private Tea tea;
     @ManyToOne(cascade = CascadeType.PERSIST,
-            fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+            fetch = FetchType.LAZY)
     private User user;
     private String comment;
 
