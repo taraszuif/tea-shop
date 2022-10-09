@@ -1,6 +1,7 @@
 package me.zuif.teashop.controller;
 
 import me.zuif.teashop.model.tea.Tea;
+import me.zuif.teashop.model.tea.TeaType;
 import me.zuif.teashop.service.impl.TeaService;
 import me.zuif.teashop.validator.TeaValidator;
 import org.slf4j.Logger;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.time.LocalDateTime;
 
 @Controller
 public class TeaController {
@@ -31,6 +34,7 @@ public class TeaController {
     public String newTea(Model model) {
         model.addAttribute("teaForm", new Tea());
         model.addAttribute("method", "new");
+        model.addAttribute("types", TeaType.values());
         return "tea";
     }
 
@@ -43,6 +47,7 @@ public class TeaController {
             model.addAttribute("method", "new");
             return "tea";
         }
+        teaForm.setAddTime(LocalDateTime.now());
         teaService.save(teaForm);
         logger.debug(String.format("Tea with id: %s successfully created.", teaForm.getId()));
 
@@ -54,7 +59,7 @@ public class TeaController {
         Tea tea = teaService.findById(id);
         if (tea != null) {
             model.addAttribute("teaForm", tea);
-            model.addAttribute("method", "update");
+            model.addAttribute("method", "edit");
             return "tea";
         } else {
             return "error/404";
@@ -67,7 +72,7 @@ public class TeaController {
 
         if (bindingResult.hasErrors()) {
             logger.error(String.valueOf(bindingResult.getFieldError()));
-            model.addAttribute("method", "update");
+            model.addAttribute("method", "edit");
             return "tea";
         }
         teaService.update(id, teaForm);

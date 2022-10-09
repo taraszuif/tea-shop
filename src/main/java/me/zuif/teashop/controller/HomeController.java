@@ -25,6 +25,7 @@ public class HomeController {
     public String home(Model model) {
         model.addAttribute("teas", getAllTeas());
         model.addAttribute("teasCount", teasCount());
+        model.addAttribute("types", TeaType.values());
         return "home";
     }
 
