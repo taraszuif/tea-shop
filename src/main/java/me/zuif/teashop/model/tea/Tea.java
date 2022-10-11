@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,7 +20,7 @@ public class Tea {
     private String id;
     @NotBlank
     private String manufacturer;
-    @NotBlank
+    @NotNull
     private TeaType teaType;
     @NotBlank
     private String name;
@@ -27,11 +28,11 @@ public class Tea {
     private String imageUrl;
     @NotBlank
     private String description;
-    @NotBlank
+    @NotNull
     private BigDecimal price;
-    @NotBlank
+    @NotNull
     private int count;
-    @NotBlank
+    @NotNull
     private LocalDateTime addTime;
     @OneToMany(fetch = FetchType.EAGER)
     private List<Rating> ratings;

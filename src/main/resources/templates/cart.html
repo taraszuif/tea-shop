@@ -15,7 +15,7 @@
             <h3 th:text="${tea.getKey().getName()}"></h3>
             <h4 th:text="${tea.getValue()}"></h4>
             <h4 th:text="${tea.getKey().getPrice()}"></h4>
-            <a class="col-md-1" th:href="@{'/cart/remove/{id}'(id=${product.getKey().getId()})}">
+            <a class="col-md-1" th:href="@{'/cart/remove/{id}'(id=${tea.getKey().getId()})}">
                 <button class="btn btn-primary" th:text="#{cart.remove}" type="button"></button>
             </a>
             <br>

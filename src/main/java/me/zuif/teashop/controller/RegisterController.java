@@ -35,11 +35,12 @@ public class RegisterController {
     @PostMapping("/register")
     public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
-        
+
         if (bindingResult.hasErrors()) {
             logger.error(String.valueOf(bindingResult.getFieldError()));
             return "register";
         }
+        userForm.setRole("USER");
         userService.save(userForm);
         userService.login(userForm.getUserName(), userForm.getPassword());
 

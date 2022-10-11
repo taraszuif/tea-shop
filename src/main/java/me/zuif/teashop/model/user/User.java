@@ -7,7 +7,6 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -18,8 +17,6 @@ public class User {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-    @NotBlank
-    private int age;
     @NotBlank
     private String userName;
     @NotBlank
@@ -35,6 +32,4 @@ public class User {
     @Email
     @NotBlank
     private String email;
-    @NotBlank
-    private BigDecimal balance;
 }

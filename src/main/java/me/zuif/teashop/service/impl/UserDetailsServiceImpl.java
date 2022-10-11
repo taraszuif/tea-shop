@@ -35,7 +35,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             Set<GrantedAuthority> authorities = new HashSet<>();
             if (user.getRole().equals("ADMIN")) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            } else if (user.getRole().equals("CUSTOMER")) {
+            } else if (user.getRole().equals("USER")) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
             } else {
                 authorities.add(new SimpleGrantedAuthority("ROLE_GUEST"));

@@ -27,7 +27,7 @@ public class UserValidator implements Validator {
         User user = (User) o;
 
         //Username, password and email can't me empty or contain whitespace
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "error.not_empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userName", "error.not_empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "error.not_empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "error.not_empty");
         // Username must have from 3 characters to 16
@@ -39,7 +39,7 @@ public class UserValidator implements Validator {
         }
         //Username can't be duplicated
         if (userService.findByUsername(user.getUserName()) != null) {
-            errors.rejectValue("username", "register.error.duplicated.username");
+            errors.rejectValue("userName", "register.error.duplicated.username");
         }
         //Email can't be duplicated
         if (userService.findByEmail(user.getEmail()) != null) {

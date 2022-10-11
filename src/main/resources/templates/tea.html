@@ -24,11 +24,19 @@
                     <div class="form-group">
                         <label th:text="#{tea.type}"></label>
                         <select autofocus="true" class="form-control input-lg" name="type.name"
-                                th:field="*{type.name}">
+                                th:field="*{teaType}">
                             <option value="0">select</option>
                             <option th:each="type : ${types}" th:text="${type.name}"
                                     th:value="${type.name}"></option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label th:text="#{tea.manufacturer}"></label>
+                        <input autofocus="false" class="form-control input-lg" th:field="*{manufacturer}"
+                               title="manufacturer"
+                               type="text"/>
+                        <div class="alert alert-danger error-alert" th:errors="*{manufacturer}"
+                             th:if="${#fields.hasErrors('manufacturer')}"></div>
                     </div>
                     <div class="form-group">
                         <label th:text="#{tea.desc}"></label>
@@ -48,9 +56,16 @@
                     <div class="form-group">
                         <label th:text="#{tea.price}"></label>
                         <input autofocus="false" class="form-control input-lg" th:field="*{price}" title="price"
-                               type="search"/>
+                               type="number"/>
                         <div class="alert alert-danger error-alert" th:errors="*{price}"
                              th:if="${#fields.hasErrors('price')}"></div>
+                    </div>
+                    <div class="form-group">
+                        <label th:text="#{tea.count}"></label>
+                        <input autofocus="false" class="form-control input-lg" th:field="*{count}" title="count"
+                               type="number"/>
+                        <div class="alert alert-danger error-alert" th:errors="*{count}"
+                             th:if="${#fields.hasErrors('count')}"></div>
                     </div>
                     <input class="btn btn-outline-dark" th:action="@{/tea/new}" th:if="${method} == 'new'"
                            th:value="#{tea.confirm}" type="submit"/>

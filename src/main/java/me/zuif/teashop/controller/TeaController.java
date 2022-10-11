@@ -47,6 +47,7 @@ public class TeaController {
             model.addAttribute("method", "new");
             return "tea";
         }
+
         teaForm.setAddTime(LocalDateTime.now());
         teaService.save(teaForm);
         logger.debug(String.format("Tea with id: %s successfully created.", teaForm.getId()));
@@ -81,10 +82,12 @@ public class TeaController {
         return "redirect:/home";
     }
 
+
     @PostMapping("/tea/delete/{id}")
     public String deleteTea(@PathVariable("id") String id) {
         Tea tea = teaService.findById(id);
         if (tea != null) {
+            
             teaService.delete(id);
             logger.debug(String.format("Tea with id: %s successfully deleted.", tea.getId()));
             return "redirect:/home";

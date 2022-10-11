@@ -61,6 +61,13 @@ nav {
     max-width: 20rem;
 }
 
+.fill-div {
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+}
+
 #cart {
     width: 50px;
     height: 50px;
