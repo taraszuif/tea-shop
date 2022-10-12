@@ -5,8 +5,13 @@ import me.zuif.teashop.model.tea.TeaType;
 import me.zuif.teashop.repository.TeaRepository;
 import me.zuif.teashop.service.ITeaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +27,38 @@ public class TeaService implements ITeaService {
     @Override
     public void save(Tea tea) {
         teaRepository.save(tea);
+    }
+
+    @Override
+    public void saveAll(List<Tea> teas) {
+        teaRepository.saveAll(teas);
+    }
+
+    @Override
+    public void flush() {
+        teaRepository.flush();
+    }
+
+    public Page<Tea> findAll(PageRequest request) {
+        return teaRepository.findAll(request);
+    }
+
+    public Page<Tea> findPaginated(Pageable pageable) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Tea> list;
+        List<Tea> teas = teaRepository.findAll();
+        if (teas.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, teas.size());
+            list = teas.subList(startItem, toIndex);
+        }
+        Page<Tea> bookPage
+                = new PageImpl<Tea>(list, PageRequest.of(currentPage, pageSize), teas.size());
+
+        return bookPage;
     }
 
     @Override

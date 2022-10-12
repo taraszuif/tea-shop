@@ -45,9 +45,12 @@ public class CartController {
     @GetMapping("/cart/remove/{id}")
     public String removeTeaFromCart(@PathVariable("id") String id) {
         Tea tea = teaService.findById(id);
+        logger.debug("remove " + id);
         if (tea != null) {
             cartService.removeTea(tea);
             logger.debug(String.format("Tea with id: %s removed from shopping cart.", id));
+        } else {
+
         }
         return "redirect:/cart";
     }

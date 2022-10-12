@@ -16,5 +16,5 @@ public interface ICartService {
 
     BigDecimal totalPrice();
 
-    void checkout();
+    boolean checkout();
 }

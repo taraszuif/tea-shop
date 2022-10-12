@@ -12,13 +12,28 @@
     <div class="col-3" th:if="${!teas.isEmpty()}">
         <h2 th:text="#{cart.title}"></h2>
         <div class="card" th:each="tea : ${teas.entrySet()}">
-            <h3 th:text="${tea.getKey().getName()}"></h3>
-            <h4 th:text="${tea.getValue()}"></h4>
-            <h4 th:text="${tea.getKey().getPrice()}"></h4>
-            <a class="col-md-1" th:href="@{'/cart/remove/{id}'(id=${tea.getKey().getId()})}">
-                <button class="btn btn-primary" th:text="#{cart.remove}" type="button"></button>
+            <a class="fill-div" th:href="@{'/tea/about' + ${tea.getKey().getId()}}">
+                <div class="card-header justify-content-center">
+                    <p class="card-text align-items-center d-flex "
+                       th:text="${tea.getKey().getName()}">
+                    </p>
+                </div>
             </a>
-            <br>
+            <div class="card-body justify-content-center">
+                <p class="card-text align-items-center d-flex"
+                   th:text="#{cart.price} + ' ' +${tea.getKey().getPrice()} + '$'"></p>
+                <p class="card-text align-items-center d-flex"
+                   th:text="#{cart.count} + ' '+ ${tea.getValue()}">
+                </p>
+            </div>
+            <div class="card-footer align-items-center d-flex justify-content-center">
+                <p class="card-text"
+                   th:text="${tea.getKey().getDescription()}"></p>
+            </div>
+            <a class="col-md-5" th:href="@{'/cart/remove/{id}'(id=${tea.getKey().getId()})}">
+                <button class="btn btn-primary align-items-center d-flex justify-content-center"
+                        th:text="#{cart.remove}" type="button"></button>
+            </a>
         </div>
     </div>
 
@@ -33,7 +48,7 @@
 
     <br>
     <div class="row">
-        <h3 th:text="#{cart.total} + ' ' + ${totalPrice}"></h3>">
+        <h3 th:text="#{cart.total} + ' ' + ${totalPrice} + '$'"></h3>
         <a class="col-md-1" th:href="@{'/cart/checkout'}">
             <button class="btn btn-success" th:text="#{cart.checkout}" type="button"></button>
         </a>

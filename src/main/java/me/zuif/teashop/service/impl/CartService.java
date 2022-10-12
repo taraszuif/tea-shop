@@ -2,6 +2,7 @@ package me.zuif.teashop.service.impl;
 
 import me.zuif.teashop.model.tea.Tea;
 import me.zuif.teashop.service.ICartService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
@@ -9,15 +10,22 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Transactional
 public class CartService implements ICartService {
-    private final Map<Tea, Integer> cart = new LinkedHashMap<>();
+    private final Map<Tea, Integer> cart = new HashMap<>();
+    private final TeaService teaService;
+
+    @Autowired
+    public CartService(TeaService teaService) {
+        this.teaService = teaService;
+    }
 
     @Override
     public void addTea(Tea tea) {
@@ -58,8 +66,18 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public void checkout() {
+    public boolean checkout() {
+        Tea tea;
+        for (Map.Entry<Tea, Integer> entry : cart.entrySet()) {
+            tea = teaService.findById(entry.getKey().getId());
+            if (tea.getCount() < entry.getValue())
+                return false;
+            entry.getKey().setCount(tea.getCount() - entry.getValue());
+        }
+        teaService.saveAll(new ArrayList<>(cart.keySet()));
+        teaService.flush();
         cart.clear();
+        return true;
         // здесь должно быть снятие денег и т.д
     }
 }
