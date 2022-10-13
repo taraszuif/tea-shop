@@ -4,6 +4,7 @@ import me.zuif.teashop.model.tea.Tea;
 import me.zuif.teashop.model.tea.TeaType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -20,11 +21,13 @@ public interface ITeaService {
 
     Page<Tea> findAll(PageRequest request);
 
+    Page<Tea> findAllByNameLike(String name, Pageable pageable);
+
     Tea findById(String id);
 
     List<Tea> findAllByOrderByIdAsc();
 
-    List<Tea> findAllByTeaType(TeaType teaType);
+    Page<Tea> findAllByTeaType(TeaType teaType, Pageable pageable);
 
     long count();
 }
