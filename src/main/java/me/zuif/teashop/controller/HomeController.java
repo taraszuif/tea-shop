@@ -41,7 +41,7 @@ public class HomeController {
         ControllerDataObject object = new ControllerDataObject();
         if (request.getParameter("search") != null && !request.getParameter("search").isEmpty()) {
             String search = request.getParameter("search");
-            object.setData(search);
+            object.setData("%" + search + "%");
             object.setValue("search");
         } else if (request.getParameter("teaType") != null && !request.getParameter("teaType").isEmpty()) {
             TeaType type = TeaType.valueOf(request.getParameter("teaType"));

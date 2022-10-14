@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 public class TeaController {
@@ -67,6 +68,18 @@ public class TeaController {
         }
     }
 
+    @GetMapping("/tea/about/{id}")
+    public String aboutTea(@PathVariable("id") String id, Model model) {
+        Tea tea = teaService.findById(id);
+        if (tea != null) {
+            model.addAttribute("tea", tea);
+            model.addAttribute("formatter", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            return "about-tea";
+        } else {
+            return "error/404";
+        }
+    }
+
     @PostMapping("/tea/edit/{id}")
     public String editTea(@PathVariable("id") String id, @ModelAttribute("teaForm") Tea teaForm, BindingResult bindingResult, Model model) {
         teaValidator.validate(teaForm, bindingResult);
@@ -87,7 +100,7 @@ public class TeaController {
     public String deleteTea(@PathVariable("id") String id) {
         Tea tea = teaService.findById(id);
         if (tea != null) {
-            
+
             teaService.delete(id);
             logger.debug(String.format("Tea with id: %s successfully deleted.", tea.getId()));
             return "redirect:/home";
