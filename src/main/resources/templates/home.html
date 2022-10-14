@@ -49,10 +49,11 @@
     <div class="btn-group">
         <button aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"
                 data-toggle="dropdown"
-                type="button">
+                id="pagination" type="button">
             Teas per page
         </button>
-        <div class="dropdown-menu">
+
+        <div aria-labelledby="pagination" class="dropdown-menu">
             <a class="dropdown-item align-items-center d-flex justify-content-center"
                th:href="@{${urlBuilder1.replaceQueryParam('size', 1).replaceQueryParam('page', '1').toUriString()}}">1</a>
             <a class="dropdown-item align-items-center d-flex justify-content-center"
@@ -63,8 +64,36 @@
                th:href="@{${urlBuilder1.replaceQueryParam('size', 8).replaceQueryParam('page', '1').toUriString()}}">8</a>
             <a class="dropdown-item align-items-center d-flex justify-content-center"
                th:href="@{${urlBuilder1.replaceQueryParam('size', 16).replaceQueryParam('page', '1').toUriString()}}">16</a>
-
         </div>
+    </div>
+    <div class="btn-group">
+        <button aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"
+                data-toggle="dropdown"
+                id="sort" type="button">
+            Sort
+        </button>
+        <div aria-labelledby="sort" class="dropdown-menu">
+            <a class="dropdown-item align-items-center d-flex justify-content-center"
+               th:href="@{${urlBuilder1.replaceQueryParam('sort', 'price').replaceQueryParam('size', 2).toUriString()}}">Price</a>
+            <a class="dropdown-item align-items-center d-flex justify-content-center"
+               th:href="@{${urlBuilder1.replaceQueryParam('sort', 'addTime').replaceQueryParam('size', 2).toUriString()}}">AddTime</a>
+            <a class="dropdown-item align-items-center d-flex justify-content-center"
+               th:href="@{${urlBuilder1.replaceQueryParam('sort', 'count').replaceQueryParam('size', 2).toUriString()}}">Count</a>
+        </div>
+    </div>
+    <div class="btn-group" th:if="${#httpServletRequest.getParameterMap().containsKey('sort')}">
+        <button aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle"
+                data-toggle="dropdown"
+                id="sortBy" type="button">
+            SortBy
+        </button>
+        <div aria-labelledby="sortBy" class="dropdown-menu">
+            <a class="dropdown-item align-items-center d-flex justify-content-center"
+               th:href="@{${urlBuilder1.replaceQueryParam('sortBy', 'ascend').replaceQueryParam('size', 2).toUriString()}}">Ascend</a>
+            <a class="dropdown-item align-items-center d-flex justify-content-center"
+               th:href="@{${urlBuilder1.replaceQueryParam('sortBy', 'descend').replaceQueryParam('size', 2).toUriString()}}">Descend</a>
+        </div>
+
     </div>
     <div class="row">
         <nav class="side-menu">

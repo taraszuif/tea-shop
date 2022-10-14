@@ -21,11 +21,11 @@ public interface ITeaService {
 
     Page<Tea> findAll(PageRequest request);
 
-    Page<Tea> findAllByNameLike(String name, Pageable pageable);
-
     Tea findById(String id);
 
-    List<Tea> findAllByOrderByIdAsc();
+    Page<Tea> findAll(Pageable pageable);
+
+    Page<Tea> findAllByNameLike(String name, Pageable pageable);
 
     Page<Tea> findAllByTeaType(TeaType teaType, Pageable pageable);
 

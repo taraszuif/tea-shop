@@ -37,9 +37,6 @@ public class TeaService implements ITeaService {
         teaRepository.flush();
     }
 
-    public Page<Tea> findAllByNameLike(String name, Pageable pageable) {
-        return teaRepository.findAllByNameLike(name, pageable);
-    }
 
     public Page<Tea> findAll(PageRequest request) {
         return teaRepository.findAll(request);
@@ -71,15 +68,23 @@ public class TeaService implements ITeaService {
         return teaRepository.findById(id).orElseThrow(IllegalArgumentException::new);
     }
 
+
     @Override
-    public List<Tea> findAllByOrderByIdAsc() {
-        return teaRepository.findAllByOrderByIdAsc();
+    public Page<Tea> findAll(Pageable pageable) {
+        return teaRepository.findAll(pageable);
+    }
+
+
+    @Override
+    public Page<Tea> findAllByNameLike(String name, Pageable pageable) {
+        return teaRepository.findAllByNameLike(name, pageable);
     }
 
     @Override
     public Page<Tea> findAllByTeaType(TeaType teaType, Pageable pageable) {
         return teaRepository.findAllByTeaType(teaType, pageable);
     }
+
 
     @Override
     public long count() {
