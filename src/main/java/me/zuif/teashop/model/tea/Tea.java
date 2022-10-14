@@ -1,7 +1,11 @@
 package me.zuif.teashop.model.tea;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import me.zuif.teashop.model.rating.Rating;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,8 +14,12 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 public class Tea {
     @Id
@@ -36,4 +44,17 @@ public class Tea {
     private LocalDateTime addTime;
     @OneToMany(fetch = FetchType.EAGER)
     private List<Rating> ratings;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Tea tea = (Tea) o;
+        return id != null && Objects.equals(id, tea.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

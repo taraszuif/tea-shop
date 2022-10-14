@@ -94,7 +94,7 @@
                         <a th:href="@{'tea/edit/' + ${tea.getId()}}"><i class="fas fa-wrench"></i></a>
                     </button>
                 </div>
-                <a class="fill-div" style="color: black" th:href="@{'tea/about/' + ${tea.getId()}}">
+                <a class="fill-div" th:href="@{'tea/about/' + ${tea.getId()}}">
                     <div class="embed-responsive embed-responsive-16by9">
                         <img alt="Card image cap" class="card-img-top embed-responsive-item" style="object-fit: cover"
                              th:src="${tea.getImageUrl()}">

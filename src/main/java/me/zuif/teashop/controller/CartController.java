@@ -28,7 +28,7 @@ public class CartController {
     public String cart(Model model) {
         model.addAttribute("teas", cartService.getCart());
         model.addAttribute("totalPrice", cartService.totalPrice());
-
+        model.addAttribute("noTeas", false);
         return "cart";
     }
 
@@ -45,7 +45,6 @@ public class CartController {
     @GetMapping("/cart/remove/{id}")
     public String removeTeaFromCart(@PathVariable("id") String id) {
         Tea tea = teaService.findById(id);
-        logger.debug("remove " + id);
         if (tea != null) {
             cartService.removeTea(tea);
             logger.debug(String.format("Tea with id: %s removed from shopping cart.", id));
@@ -62,8 +61,10 @@ public class CartController {
     }
 
     @GetMapping("/cart/checkout")
-    public String cartCheckout() {
-        cartService.checkout();
+    public String cartCheckout(Model model) {
+        if (!cartService.checkout()) {
+            model.addAttribute("noTeas", true);
+        }
 
         return "redirect:/cart";
     }

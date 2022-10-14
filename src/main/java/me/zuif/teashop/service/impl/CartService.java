@@ -10,16 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Transactional
 public class CartService implements ICartService {
-    private final Map<Tea, Integer> cart = new HashMap<>();
+    private final Map<Tea, Integer> cart = new LinkedHashMap<>();
     private final TeaService teaService;
 
     @Autowired
@@ -30,10 +27,11 @@ public class CartService implements ICartService {
     @Override
     public void addTea(Tea tea) {
         if (cart.containsKey(tea)) {
-            cart.replace(tea, cart.get(tea) + 1);
+            cart.put(tea, cart.get(tea) + 1);
         } else {
             cart.put(tea, 1);
         }
+
     }
 
     @Override
@@ -60,7 +58,7 @@ public class CartService implements ICartService {
     @Override
     public BigDecimal totalPrice() {
         return cart.entrySet().stream()
-                .map(k -> k.getKey().getPrice().multiply(BigDecimal.valueOf(k.getValue()))).sorted()
+                .map(k -> k.getKey().getPrice().multiply(BigDecimal.valueOf(k.getValue())))
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO);
     }
@@ -74,6 +72,8 @@ public class CartService implements ICartService {
                 return false;
             entry.getKey().setCount(tea.getCount() - entry.getValue());
         }
+
+        List<List<List<List<List<List<List<List<List<List<List<List<String>>>>>>>>>>>> list;
         teaService.saveAll(new ArrayList<>(cart.keySet()));
         teaService.flush();
         cart.clear();
