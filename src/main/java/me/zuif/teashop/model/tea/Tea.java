@@ -4,16 +4,16 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import me.zuif.teashop.model.rating.Rating;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -42,8 +42,6 @@ public class Tea {
     private int count;
     @NotNull
     private LocalDateTime addTime;
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Rating> ratings;
 
     @Override
     public boolean equals(Object o) {

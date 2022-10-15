@@ -28,7 +28,6 @@ public class CartController {
     public String cart(Model model) {
         model.addAttribute("teas", cartService.getCart());
         model.addAttribute("totalPrice", cartService.totalPrice());
-        model.addAttribute("noTeas", false);
         return "cart";
     }
 
@@ -64,8 +63,10 @@ public class CartController {
     public String cartCheckout(Model model) {
         if (!cartService.checkout()) {
             model.addAttribute("noTeas", true);
+            model.addAttribute("teas", cartService.getCart());
+            model.addAttribute("totalPrice", cartService.totalPrice());
+            return "cart";
         }
-
         return "redirect:/cart";
     }
 }

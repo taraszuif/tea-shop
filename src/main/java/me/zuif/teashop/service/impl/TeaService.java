@@ -68,6 +68,11 @@ public class TeaService implements ITeaService {
         return teaRepository.findById(id).orElseThrow(IllegalArgumentException::new);
     }
 
+    @Override
+    public Page<Tea> findAllByNameLikeOrDescriptionLikeOrManufacturerLike(String name, String description, String manufacturer, Pageable pageable) {
+        return teaRepository.findAllByNameLikeOrDescriptionLikeOrManufacturerLike(name, description, manufacturer, pageable);
+    }
+
 
     @Override
     public Page<Tea> findAll(Pageable pageable) {

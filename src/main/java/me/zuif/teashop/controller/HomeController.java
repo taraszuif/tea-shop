@@ -60,6 +60,7 @@ public class HomeController {
             sortBy = sort;
         }
         Page<Tea> find = null;
+        boolean searchDetail = false;
         PageRequest pageRequest = PageRequest.of(page, size);
         if (sort) {
             String sortValue = request.getParameter("sort");
@@ -69,6 +70,10 @@ public class HomeController {
                     case "search" -> {
                         String name = (String) object.getData();
                         find = teaService.findAllByNameLike(name, PageRequest.of(page, size, Sort.Direction.DESC, sortValue));
+                        if (find.getTotalElements() == 0) {
+                            searchDetail = true;
+                            find = teaService.findAllByNameLikeOrDescriptionLikeOrManufacturerLike(name, name, name, PageRequest.of(page, size, Sort.Direction.ASC, sortValue));
+                        }
                     }
                     case "teaType" -> {
                         TeaType type = (TeaType) object.getData();
@@ -83,6 +88,10 @@ public class HomeController {
                     case "search" -> {
                         String name = (String) object.getData();
                         find = teaService.findAllByNameLike(name, PageRequest.of(page, size, Sort.Direction.ASC, sortValue));
+                        if (find.getTotalElements() == 0) {
+                            searchDetail = true;
+                            find = teaService.findAllByNameLikeOrDescriptionLikeOrManufacturerLike(name, name, name, PageRequest.of(page, size, Sort.Direction.ASC, sortValue));
+                        }
                     }
                     case "teaType" -> {
                         TeaType type = (TeaType) object.getData();
@@ -98,6 +107,10 @@ public class HomeController {
                 case "search" -> {
                     String name = (String) object.getData();
                     find = teaService.findAllByNameLike(name, pageRequest);
+                    if (find.getTotalElements() == 0) {
+                        searchDetail = true;
+                        find = teaService.findAllByNameLikeOrDescriptionLikeOrManufacturerLike(name, name, name, PageRequest.of(page, size));
+                    }
                 }
                 case "teaType" -> {
                     TeaType type = (TeaType) object.getData();
@@ -109,7 +122,7 @@ public class HomeController {
         if (find == null) {
             find = teaService.findAll(pageRequest);
         }
-
+        model.addAttribute("searchDetail", searchDetail);
         model.addAttribute("teas", find);
         model.addAttribute("teasCount", find.getTotalElements());
         model.addAttribute("search", "");
