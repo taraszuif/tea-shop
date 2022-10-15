@@ -6,11 +6,13 @@
 </head>
 
 <body>
-<div th:fragment="footer">
-    <footer class="text-center text-lg-start text-muted" style="background: rgb(44, 49, 53)">
-        <section class="d-flex justify-content-center p-2">
-            <div class="d-flex  d-lg-block">
-                <span>Project on GitHub:</span>
+<div th:fragment="footer"
+     th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+    >
+    <footer class="text-center text-lg-start text-muted text-center" style="background: rgb(44, 49, 53)">
+        <section class="p-2">
+            <div class="d-lg-block">
+                <span th:text="#{footer.github}"></span>
                 <a class="text-reset" href="https://github.com/Zuifs/tea-shop">
                     <i class="fab fa-github"></i>
                 </a>
@@ -22,11 +24,15 @@
                     <a th:href="@{/about}" th:text="#{about.name}"></a>
                 </span>
         <label>
-            <select class="custom-select" id="select-lang">
-                <option th:selected="${#locale.getLanguage().toString() == 'en'}" th:text="#{footer.language.en}"
-                        value="eng"></option>
-                <option th:selected="${#locale.getLanguage().toString() == 'ua'}" th:text="#{footer.language.ua}"
-                        value="ua"></option>
+            <select class="custom-select" id="select-lang" onchange="window.location = this.value">
+                <option th:href="@{${urlBuilder.replaceQueryParam('lang', 'en').toUriString()}}"
+                        th:selected="${#locale.getLanguage().toString() == 'en'}"
+                        th:text="#{footer.language.en}"
+                        th:value="${urlBuilder.replaceQueryParam('lang', 'en').toUriString()}"></option>
+                <option th:href="@{${urlBuilder.replaceQueryParam('lang', 'ua').toUriString()}}"
+                        th:selected="${#locale.getLanguage().toString() == 'ua'}"
+                        th:text="#{footer.language.ua}"
+                        th:value="${urlBuilder.replaceQueryParam('lang', 'ua').toUriString()}"></option>
             </select>
         </label>
 

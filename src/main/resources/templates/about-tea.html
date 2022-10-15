@@ -7,39 +7,39 @@
 <body>
 
 <div th:replace="fragments/header :: header"></div>
-<div class="container">
-    <h1 class="align-items-center d-flex justify-content-center">About tea</h1>
+<div class="container text-center">
+    <h1 th:text="#{about.tea}"></h1>
     <div class="embed-responsive embed-responsive-16by9">
         <img alt="Card image cap" class="card-img-top embed-responsive-item"
              style="object-fit: contain;  height: 100%; width: 100%"
              th:src="${tea.getImageUrl()}">
     </div>
-    <h2 class="row align-items-center d-flex justify-content-center" th:text="'Name'"></h2>
-    <h5 class="row align-items-center d-flex justify-content-center border-bottom p-xl-3"
+    <h2 class="row align-items-center d-flex justify-content-center" th:text="#{about.tea.name}"></h2>
+    <h5 class="row align-items-center d-flex justify-content-center p-xl-3"
         th:text="${tea.getName()}"></h5>
     <h2 class="row align-items-center d-flex justify-content-center"
-        th:text="'Description'"></h2>
+        th:text="#{about.tea.description}"></h2>
     <h5 class="row align-items-center d-flex justify-content-center border-bottom p-xl-3"
         th:text="${tea.getDescription()}"></h5>
-    <h2 class="row align-items-center d-flex justify-content-center" th:text="'Price'"></h2>
+    <h2 class="row align-items-center d-flex justify-content-center" th:text="#{about.tea.price}"></h2>
     <h5 class="row align-items-center d-flex justify-content-center border-bottom p-xl-3"
         th:text=" ${tea.getPrice()} + '$'"></h5>
 
-    <h2 class="row align-items-center d-flex justify-content-center" th:text="'Count'"></h2>
+    <h2 class="row align-items-center d-flex justify-content-center" th:text="#{about.tea.count}"></h2>
     <h5 class="row align-items-center d-flex justify-content-center border-bottom p-xl-3"
         th:text="${tea.getCount()}"></h5>
 
     <h2 class="row align-items-center d-flex justify-content-center"
-        th:text="'Manufacturer'"></h2>
+        th:text="#{about.tea.manufacturer}"></h2>
     <h5 class="row align-items-center d-flex justify-content-center border-bottom p-xl-3"
         th:text=" ${tea.getManufacturer()}"></h5>
     <h2 class="row align-items-center d-flex justify-content-center"
-        th:text="'AddTime'"></h2>
+        th:text="#{about.tea.addtime}"></h2>
     <h5 class="row align-items-center d-flex justify-content-center border-bottom p-xl-3"
         th:text=" ${tea.getAddTime().format(formatter)}"></h5>
     <br>
     <a class="row align-items-center d-flex justify-content-center" th:href="${'/cart/add/' + tea.getId()}">
-        <button class="btn btn-info align-items-center d-flex justify-content-center" th:text="#{tea.add}"
+        <button class="btn btn-info text-center" th:text="#{tea.add}"
                 type="button"></button>
     </a>
 

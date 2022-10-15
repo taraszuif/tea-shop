@@ -11,15 +11,15 @@
 <div th:replace="fragments/header :: header"></div>
 
 <div class="container"
-     th:with="urlBuilder1=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
-    <nav aria-label="Pagination">
-        <ul class="pagination justify-content-center font-weight-medium">
+     th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+    <nav aria-label="Pagination" class="nav align-items-center d-flex justify-content-center">
+        <ul class="pagination text-center font-weight-medium">
             <li class="page-item" th:classappend="${teas.number eq 0} ? 'disabled'">
                 <a aria-label="Previous"
                    class="page-link svg-icon"
                    rel="tooltip"
-                   th:href="@{${urlBuilder1.replaceQueryParam('page', teas.number lt 2 ? 1 : teas.number).toUriString()}}"
-                   title="Previous Page">
+                   th:href="@{${urlBuilder.replaceQueryParam('page', teas.number lt 2 ? 1 : teas.number).toUriString()}}"
+                   th:title="#{pagination.previous}">
                     <span aria-hidden="true" data-feather="chevrons-left" height="20" width="20">&laquo;</span>
                 </a>
             </li>
@@ -27,9 +27,9 @@
                 th:each="i : ${#numbers.sequence( teas.number + 1, teas.totalPages > 10 + teas.number ? teas.number + 10 : teas.totalPages, 1)}">
 
                 <a class="page-link" rel="tooltip"
-                   th:href="@{${urlBuilder1.replaceQueryParam('page', i).toUriString()}}"
+                   th:href="@{${urlBuilder.replaceQueryParam('page', i).toUriString()}}"
                    th:text="${i}"
-                   th:title="${'Page '+ i}"></a>
+                   th:title="#{pagination.page} + ' ' + i"></a>
             </li>
             <li class="page-item disabled" th:if="${teas.number + 10 < teas.totalPages}">
                 <a class="page-link svg-icon" href="#">
@@ -39,8 +39,8 @@
             <li class="page-item" th:classappend="${teas.number + 1 eq teas.totalPages} ? 'disabled'">
                 <a aria-label="Next" class="page-link svg-icon"
                    rel="tooltip"
-                   th:href="@{${urlBuilder1.replaceQueryParam('page',teas.number + 2).toUriString()}}"
-                   title="Next Page">
+                   th:href="@{${urlBuilder.replaceQueryParam('page',teas.number + 2).toUriString()}}"
+                   th:title="#{pagination.next}">
                     <span aria-hidden="true" data-feather="chevrons-right" height="20" width="20">&raquo;</span>
                 </a>
             </li>
@@ -49,67 +49,70 @@
     <div class="btn-group">
         <button aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"
                 data-toggle="dropdown"
-                id="pagination" type="button">
-            Teas per page
+                id="pagination" th:text="#{pagination.perpage}" type="button">
         </button>
 
-        <div aria-labelledby="pagination" class="dropdown-menu">
-            <a class="dropdown-item align-items-center d-flex justify-content-center"
-               th:href="@{${urlBuilder1.replaceQueryParam('size', 1).replaceQueryParam('page', '1').toUriString()}}">1</a>
-            <a class="dropdown-item align-items-center d-flex justify-content-center"
-               th:href="@{${urlBuilder1.replaceQueryParam('size', 2).replaceQueryParam('page', '1').toUriString()}}">2</a>
-            <a class="dropdown-item align-items-center d-flex justify-content-center"
-               th:href="@{${urlBuilder1.replaceQueryParam('size', 4).replaceQueryParam('page', '1').toUriString()}}">4</a>
-            <a class="dropdown-item align-items-center d-flex justify-content-center"
-               th:href="@{${urlBuilder1.replaceQueryParam('size', 8).replaceQueryParam('page', '1').toUriString()}}">8</a>
-            <a class="dropdown-item align-items-center d-flex justify-content-center"
-               th:href="@{${urlBuilder1.replaceQueryParam('size', 16).replaceQueryParam('page', '1').toUriString()}}">16</a>
+        <div aria-labelledby="pagination" class="dropdown-menu text-center">
+            <a class="dropdown-item"
+               th:href="@{${urlBuilder.replaceQueryParam('size', 1).replaceQueryParam('page', '1').toUriString()}}">1</a>
+            <a class="dropdown-item"
+               th:href="@{${urlBuilder.replaceQueryParam('size', 2).replaceQueryParam('page', '1').toUriString()}}">2</a>
+            <a class="dropdown-item"
+               th:href="@{${urlBuilder.replaceQueryParam('size', 4).replaceQueryParam('page', '1').toUriString()}}">4</a>
+            <a class="dropdown-item"
+               th:href="@{${urlBuilder.replaceQueryParam('size', 8).replaceQueryParam('page', '1').toUriString()}}">8</a>
+            <a class="dropdown-item"
+               th:href="@{${urlBuilder.replaceQueryParam('size', 16).replaceQueryParam('page', '1').toUriString()}}">16</a>
         </div>
     </div>
-    <div class="btn-group">
+    <div class="btn-group ">
         <button aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"
                 data-toggle="dropdown"
-                id="sort" type="button">
-            Sort
+                id="sort" th:text="#{sort.sort}" type="button">
+
         </button>
-        <div aria-labelledby="sort" class="dropdown-menu">
-            <a class="dropdown-item align-items-center d-flex justify-content-center"
-               th:href="@{${urlBuilder1.replaceQueryParam('sort', 'price').replaceQueryParam('size', 2).toUriString()}}">Price</a>
-            <a class="dropdown-item align-items-center d-flex justify-content-center"
-               th:href="@{${urlBuilder1.replaceQueryParam('sort', 'addTime').replaceQueryParam('size', 2).toUriString()}}">AddTime</a>
-            <a class="dropdown-item align-items-center d-flex justify-content-center"
-               th:href="@{${urlBuilder1.replaceQueryParam('sort', 'count').replaceQueryParam('size', 2).toUriString()}}">Count</a>
+        <div aria-labelledby="sort" class="dropdown-menu text-center">
+            <a class="dropdown-item"
+               th:href="@{${urlBuilder.replaceQueryParam('sort', 'price').replaceQueryParam('size', 2).toUriString()}}"
+               th:text="#{sort.sort.price}"></a>
+            <a class="dropdown-item"
+               th:href="@{${urlBuilder.replaceQueryParam('sort', 'addTime').replaceQueryParam('size', 2).toUriString()}}"
+               th:text="#{sort.sort.addtime}"></a>
+            <a class="dropdown-item"
+               th:href="@{${urlBuilder.replaceQueryParam('sort', 'count').replaceQueryParam('size', 2).toUriString()}}"
+               th:text="#{sort.sort.count}"></a>
         </div>
     </div>
     <div class="btn-group" th:if="${#httpServletRequest.getParameterMap().containsKey('sort')}">
         <button aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle"
                 data-toggle="dropdown"
-                id="sortBy" type="button">
-            SortBy
+                id="sortBy" th:text="#{sort.direction}" type="button">
         </button>
-        <div aria-labelledby="sortBy" class="dropdown-menu">
-            <a class="dropdown-item align-items-center d-flex justify-content-center"
-               th:href="@{${urlBuilder1.replaceQueryParam('sortBy', 'ascend').replaceQueryParam('size', 2).toUriString()}}">Ascend</a>
-            <a class="dropdown-item align-items-center d-flex justify-content-center"
-               th:href="@{${urlBuilder1.replaceQueryParam('sortBy', 'descend').replaceQueryParam('size', 2).toUriString()}}">Descend</a>
+        <div aria-labelledby="sortBy" class="dropdown-menu text-center">
+            <a class="dropdown-item"
+               th:href="@{${urlBuilder.replaceQueryParam('sortBy', 'ascend').replaceQueryParam('size', 2).toUriString()}}"
+               th:text="#{sort.direction.asc}"></a>
+            <a class="dropdown-item"
+               th:href="@{${urlBuilder.replaceQueryParam('sortBy', 'descend').replaceQueryParam('size', 2).toUriString()}}"
+               th:text="#{sort.direction.desc}"></a>
         </div>
 
     </div>
-    <div class="alert alert-warning align-items-center d-flex justify-content-center" role="alert"
+    <div class="alert alert-warning text-center" role="alert"
          th:if="${searchDetail and teas.totalElements > 0}"
-         th:text="'Nothing found with search by name, showing result with search by other text properties'"></div>
-    <div class="alert alert-info align-items-center d-flex justify-content-center" role="alert"
+         th:text="#{search.other}"></div>
+    <div class="alert alert-info text-center" role="alert"
          th:if="${teas.totalElements == 0}"
-         th:text="'Nothing found'"></div>
+         th:text="#{search.nothing}"></div>
 
-    <div class="row">
+    <div class="row text-center">
         <nav class="side-menu">
-            <h3>Type</h3>
+            <h3 th:text="#{home.type}"></h3>
             <div class="card" th:each="type: ${types}">
                 <a class="fill-div" style="color: black" th:href="@{/home(teaType=${type})}">
-                    <div class="card-body justify-content-center">
-                        <p class="card-text align-items-center d-flex justify-content-center "
-                           th:text="${type.getName()}"></p>
+                    <div class="card-body">
+                        <p class="card-text"
+                           th:text="#{'type.' + ${type.getName().toLowerCase()}}"></p>
                     </div>
                 </a>
             </div>
@@ -140,9 +143,9 @@
                         <h4 class="card-title"
                             th:text="${tea.getName()}"></h4>
 
-                        <p class="card-text align-items-center d-flex justify-content-center"
+                        <p class="card-text"
                            th:text="${tea.getDescription()}"></p>
-                        <p $ class="card-text align-items-md-end d-flex justify-content-center"
+                        <p $ class="card-text"
                            th:text="${tea.getPrice()} + '$'"></p>
                     </div>
                     <a class="btn btn-lg btn-outline-info btn-block" th:href="${'/cart/add/' + tea.getId()}"

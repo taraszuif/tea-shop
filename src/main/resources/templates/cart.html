@@ -11,7 +11,7 @@
 <div class="container">
     <div class="alert alert-danger align-items-center d-flex justify-content-center" role="alert"
          th:if="${noTeas != null and noTeas}"
-         th:text="'No teas in the stock!'"></div>
+         th:text="#{cart.noteas}"></div>
     <h2 class="align-items-center d-flex justify-content-center" th:text="#{cart.title}"></h2>
     <div class="row align-items-center d-flex justify-content-center">
         <h3 th:text="#{cart.total} + ' ' + ${totalPrice} + '$'"></h3>
