@@ -1,9 +1,9 @@
 package me.zuif.teashop.controller;
 
+import me.zuif.teashop.dto.ControllerDataObject;
 import me.zuif.teashop.model.tea.Tea;
 import me.zuif.teashop.model.tea.TeaType;
 import me.zuif.teashop.service.impl.TeaService;
-import me.zuif.teashop.utils.ControllerDataObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,12 +27,10 @@ public class HomeController {
     @GetMapping(value = {"/", "/index", "/home"})
     public String home(HttpServletRequest request, Model model) {
         int page = 0;
-        int size = 2;
-
+        int size = 16;
         if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
             page = Integer.parseInt(request.getParameter("page")) - 1;
         }
-
         if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
             size = Integer.parseInt(request.getParameter("size"));
         }
@@ -64,43 +62,22 @@ public class HomeController {
         PageRequest pageRequest = PageRequest.of(page, size);
         if (sort) {
             String sortValue = request.getParameter("sort");
-            String sortByValue = request.getParameter("sortBy");
-            if (sortBy && sortByValue.equals("descend")) {
-                switch (object.getValue()) {
-                    case "search" -> {
-                        String name = (String) object.getData();
-                        find = teaService.findAllByNameLike(name, PageRequest.of(page, size, Sort.Direction.DESC, sortValue));
-                        if (find.getTotalElements() == 0) {
-                            searchDetail = true;
-                            find = teaService.findAllByNameLikeOrDescriptionLikeOrManufacturerLike(name, name, name, PageRequest.of(page, size, Sort.Direction.ASC, sortValue));
-                        }
+            Sort.Direction direction = sortBy && request.getParameter("sortBy").equals("descend") ? Sort.Direction.DESC : Sort.Direction.ASC;
+            switch (object.getValue()) {
+                case "search" -> {
+                    String name = (String) object.getData();
+                    find = teaService.findAllByNameLike(name, PageRequest.of(page, size, direction, sortValue));
+                    if (find.getTotalElements() == 0) {
+                        searchDetail = true;
+                        find = teaService.findAllByNameLikeOrDescriptionLikeOrManufacturerLike(name, name, name, PageRequest.of(page, size, direction, sortValue));
                     }
-                    case "teaType" -> {
-                        TeaType type = (TeaType) object.getData();
-                        find = teaService.findAllByTeaType(type, PageRequest.of(page, size, Sort.Direction.DESC, sortValue));
-                    }
-                    case "default" ->
-                            find = teaService.findAll(PageRequest.of(page, size, Sort.Direction.DESC, sortValue));
-
                 }
-            } else {
-                switch (object.getValue()) {
-                    case "search" -> {
-                        String name = (String) object.getData();
-                        find = teaService.findAllByNameLike(name, PageRequest.of(page, size, Sort.Direction.ASC, sortValue));
-                        if (find.getTotalElements() == 0) {
-                            searchDetail = true;
-                            find = teaService.findAllByNameLikeOrDescriptionLikeOrManufacturerLike(name, name, name, PageRequest.of(page, size, Sort.Direction.ASC, sortValue));
-                        }
-                    }
-                    case "teaType" -> {
-                        TeaType type = (TeaType) object.getData();
-                        find = teaService.findAllByTeaType(type, PageRequest.of(page, size, Sort.Direction.ASC, sortValue));
-                    }
-                    case "default" ->
-                            find = teaService.findAll(PageRequest.of(page, size, Sort.Direction.ASC, sortValue));
-
+                case "teaType" -> {
+                    TeaType type = (TeaType) object.getData();
+                    find = teaService.findAllByTeaType(type, PageRequest.of(page, size, direction, sortValue));
                 }
+                case "default" -> find = teaService.findAll(PageRequest.of(page, size, direction, sortValue));
+
             }
         } else {
             switch (object.getValue()) {

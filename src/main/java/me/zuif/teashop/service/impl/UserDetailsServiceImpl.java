@@ -1,6 +1,6 @@
 package me.zuif.teashop.service.impl;
 
-import me.zuif.teashop.model.user.User;
+import me.zuif.teashop.model.User;
 import me.zuif.teashop.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         if (user != null) {
             Set<GrantedAuthority> authorities = new HashSet<>();
-            if (user.getRole().equals("ADMIN")) {
+            if (user.getRole().equalsIgnoreCase("ADMIN")) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
             } else if (user.getRole().equals("USER")) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));

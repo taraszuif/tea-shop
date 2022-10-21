@@ -1,6 +1,6 @@
 package me.zuif.teashop.validator;
 
-import me.zuif.teashop.model.user.User;
+import me.zuif.teashop.model.User;
 import me.zuif.teashop.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

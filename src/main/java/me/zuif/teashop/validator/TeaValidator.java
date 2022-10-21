@@ -26,10 +26,10 @@ public class TeaValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "error.not_empty");
         // Name must have from 2 characters to 64
         if (tea.getName().length() <= 1) {
-            errors.rejectValue("name", "tea.error.name.less_2");
+            errors.rejectValue("name", "teaForm.error.name.less_2");
         }
         if (tea.getName().length() > 64) {
-            errors.rejectValue("name", "tea.error.name.over_64");
+            errors.rejectValue("name", "teaForm.error.name.over_64");
         }
     }
 }

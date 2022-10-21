@@ -1,6 +1,6 @@
 package me.zuif.teashop.service;
 
-import me.zuif.teashop.model.user.User;
+import me.zuif.teashop.model.User;
 import org.springframework.stereotype.Service;
 
 @Service

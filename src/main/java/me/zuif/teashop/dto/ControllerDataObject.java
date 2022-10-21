@@ -1,4 +1,4 @@
-package me.zuif.teashop.utils;
+package me.zuif.teashop.dto;
 
 import lombok.Data;
 

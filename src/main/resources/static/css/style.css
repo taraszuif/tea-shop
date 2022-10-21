@@ -11,10 +11,183 @@ body {
     flex-direction: column;
 }
 
+.rating-box {
+    width: 130px;
+    height: 130px;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: #FBC02D;
+    color: #fff;
+}
+
+.rating-label {
+    font-weight: bold;
+}
+
+/* Rating bar width */
+.rating-bar {
+    width: 300px;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+/* The bar container */
+.bar-container {
+    width: 100%;
+    background-color: #f1f1f1;
+    text-align: center;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+/* Individual bars */
+.bar-5 {
+    width: 70%;
+    height: 13px;
+    background-color: #FBC02D;
+    border-radius: 20px;
+
+}
+
+.bar-4 {
+    width: 30%;
+    height: 13px;
+    background-color: #FBC02D;
+    border-radius: 20px;
+
+}
+
+.bar-3 {
+    width: 20%;
+    height: 13px;
+    background-color: #FBC02D;
+    border-radius: 20px;
+
+}
+
+.bar-2 {
+    width: 10%;
+    height: 13px;
+    background-color: #FBC02D;
+    border-radius: 20px;
+
+}
+
+.bar-1 {
+    width: 0%;
+    height: 13px;
+    background-color: #FBC02D;
+    border-radius: 20px;
+
+}
+
+td {
+    padding-bottom: 10px;
+}
+
+.star-active {
+    color: #FBC02D;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.star-active:hover {
+    color: #F9A825;
+    cursor: pointer;
+}
+
+.star-inactive {
+    color: #CFD8DC;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.blue-text {
+    color: #0091EA;
+}
+
+.content {
+    font-size: 18px;
+}
+
+.profile-pic {
+    width: 90px;
+    height: 90px;
+    border-radius: 100%;
+    margin-right: 30px;
+}
+
+.pic {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+}
+
+.btn-grey {
+    background-color: #D8D8D8;
+    color: #FFF;
+}
+
+.rating-block {
+    background-color: #FAFAFA;
+    border: 1px solid #EFEFEF;
+    padding: 15px 15px 20px 15px;
+    border-radius: 3px;
+    width: max-content;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.padding-bottom-7 {
+    padding-bottom: 7px;
+}
+
+.review-block {
+    background-color: #FAFAFA;
+    border: 1px solid #EFEFEF;
+    padding: 15px;
+    border-radius: 3px;
+    margin-bottom: 15px;
+}
+
+.review-block-name {
+    font-size: 12px;
+    margin: 10px 0;
+}
+
+.review-block-date {
+    font-size: 12px;
+}
+
+.review-block-rate {
+    font-size: 13px;
+    margin-bottom: 15px;
+    width: max-content;
+}
+
+.review-block-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.review-block-description {
+    font-size: 13px;
+}
+
+.vote {
+    cursor: pointer;
+}
+
 span {
     padding-left: 10px;
     padding-right: 10px;
 }
+
 
 footer {
     position: fixed;
@@ -54,9 +227,6 @@ nav {
     padding-left: 15px;
 }
 
-.card {
-    max-width: 20rem;
-}
 
 .fill-div {
     display: block;

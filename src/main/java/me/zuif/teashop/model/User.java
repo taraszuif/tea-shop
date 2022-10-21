@@ -1,14 +1,12 @@
-package me.zuif.teashop.model.user;
+package me.zuif.teashop.model;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Data
 @Table(name = "Users")
@@ -31,4 +29,6 @@ public class User {
     @Email
     @NotBlank
     private String email;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private List<Rating> ratings;
 }

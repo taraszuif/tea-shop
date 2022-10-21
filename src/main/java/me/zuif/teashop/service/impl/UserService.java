@@ -1,6 +1,6 @@
 package me.zuif.teashop.service.impl;
 
-import me.zuif.teashop.model.user.User;
+import me.zuif.teashop.model.User;
 import me.zuif.teashop.repository.UserRepository;
 import me.zuif.teashop.service.IUserService;
 import org.slf4j.Logger;

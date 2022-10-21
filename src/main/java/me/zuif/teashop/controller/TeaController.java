@@ -2,6 +2,7 @@ package me.zuif.teashop.controller;
 
 import me.zuif.teashop.model.tea.Tea;
 import me.zuif.teashop.model.tea.TeaType;
+import me.zuif.teashop.service.impl.RatingService;
 import me.zuif.teashop.service.impl.TeaService;
 import me.zuif.teashop.validator.TeaValidator;
 import org.slf4j.Logger;
@@ -22,12 +23,13 @@ import java.time.format.DateTimeFormatter;
 public class TeaController {
     private static final Logger logger = LoggerFactory.getLogger(TeaController.class);
     private final TeaService teaService;
+    private final RatingService ratingService;
     private final TeaValidator teaValidator;
 
     @Autowired
-    public TeaController(TeaService teaService, TeaValidator teaValidator) {
+    public TeaController(TeaService teaService, RatingService ratingService, TeaValidator teaValidator) {
         this.teaService = teaService;
-
+        this.ratingService = ratingService;
         this.teaValidator = teaValidator;
     }
 
@@ -51,7 +53,7 @@ public class TeaController {
 
         teaForm.setAddTime(LocalDateTime.now());
         teaService.save(teaForm);
-        logger.debug(String.format("Tea with id: %s successfully created.", teaForm.getId()));
+        logger.debug(String.format("Tea with id: %s created.", teaForm.getId()));
 
         return "redirect:/home";
     }
@@ -61,6 +63,7 @@ public class TeaController {
         Tea tea = teaService.findById(id);
         if (tea != null) {
             model.addAttribute("teaForm", tea);
+            model.addAttribute("types", TeaType.values());
             model.addAttribute("method", "edit");
             return "tea";
         } else {
@@ -73,6 +76,7 @@ public class TeaController {
         Tea tea = teaService.findById(id);
         if (tea != null) {
             model.addAttribute("tea", tea);
+            model.addAttribute("rating", ratingService.getDTO(tea));
             model.addAttribute("formatter", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             return "about-tea";
         } else {
@@ -89,6 +93,8 @@ public class TeaController {
             model.addAttribute("method", "edit");
             return "tea";
         }
+        Tea tea = teaService.findById(id);
+        teaForm.setAddTime(tea.getAddTime());
         teaService.update(id, teaForm);
         logger.debug(String.format("Tea with id: %s has been successfully edited.", id));
 
