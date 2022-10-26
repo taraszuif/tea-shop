@@ -1,6 +1,8 @@
 package me.zuif.teashop.service;
 
-import me.zuif.teashop.model.User;
+import me.zuif.teashop.model.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,4 +16,10 @@ public interface IUserService {
     User findByEmail(String email);
 
     User findById(String id);
+
+    Page<User> findAll(Pageable pageable);
+
+    void delete(String id);
+
+    void update(String id, User user);
 }

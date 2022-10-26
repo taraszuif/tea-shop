@@ -31,6 +31,8 @@
                             <option th:each="type : ${types}" th:text="${type.name}"
                                     th:value="${type}"></option>
                         </select>
+                        <div class="alert alert-danger error-alert" th:errors="*{teaType}"
+                             th:if="${#fields.hasErrors('teaType')}"></div>
                     </div>
                     <div class="form-group">
                         <label th:text="#{tea.manufacturer}"></label>

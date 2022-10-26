@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/header :: header-css">
 </head>
@@ -52,7 +52,9 @@
     </div>
 
     <br>
-    <a class="row align-items-center d-flex justify-content-center" th:href="@{'/cart/clear/'}">
+    <a class="row align-items-center d-flex justify-content-center"
+       sec:authorize="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')"
+       th:href="@{'/cart/clear/'}">
         <button class="btn btn-info align-items-center d-flex justify-content-center" th:text="#{cart.clear}"
                 type="button"></button>
     </a>

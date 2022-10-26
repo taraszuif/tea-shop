@@ -28,6 +28,11 @@
                         Search
                     </button>
                 </form>
+                <ul class="navbar-nav">
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN') ">
+                        <a class="nav-link" th:href="@{/user/list}" th:text="'User list'"></a>
+                    </li>
+                </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="navbar-text" sec:authorize="isAuthenticated()" th:text="#{header.logged}"></li>
                     <li class="nav-item" sec:authorize="isAuthenticated()">

@@ -1,9 +1,10 @@
 package me.zuif.teashop.controller;
 
-import me.zuif.teashop.dto.ControllerDataObject;
 import me.zuif.teashop.model.tea.Tea;
 import me.zuif.teashop.model.tea.TeaType;
 import me.zuif.teashop.service.impl.TeaService;
+import me.zuif.teashop.utils.FindOptions;
+import me.zuif.teashop.utils.PageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,27 +27,20 @@ public class HomeController {
 
     @GetMapping(value = {"/", "/index", "/home"})
     public String home(HttpServletRequest request, Model model) {
-        int page = 0;
-        int size = 16;
-        if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
-            page = Integer.parseInt(request.getParameter("page")) - 1;
-        }
-        if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
-            size = Integer.parseInt(request.getParameter("size"));
-        }
+        PageOptions pageOptions = PageOptions.retrieveFromRequest(request);
         boolean sort = false;
         boolean sortBy = false;
-        ControllerDataObject object = new ControllerDataObject();
+        FindOptions findOptions = new FindOptions();
         if (request.getParameter("search") != null && !request.getParameter("search").isEmpty()) {
             String search = request.getParameter("search");
-            object.setData("%" + search + "%");
-            object.setValue("search");
+            findOptions.setData("%" + search + "%");
+            findOptions.setType(FindOptions.FindType.SEARCH);
         } else if (request.getParameter("teaType") != null && !request.getParameter("teaType").isEmpty()) {
             TeaType type = TeaType.valueOf(request.getParameter("teaType"));
-            object.setData(type);
-            object.setValue("teaType");
+            findOptions.setData(type);
+            findOptions.setType(FindOptions.FindType.TYPE);
         } else {
-            object.setValue("default");
+            findOptions.setType(FindOptions.FindType.DEFAULT);
         }
         if (request.getParameter("sort") != null && !request.getParameter("sort").isEmpty()) {
             List<String> sortValues = List.of("count", "price", "addTime");
@@ -59,48 +53,49 @@ public class HomeController {
         }
         Page<Tea> find = null;
         boolean searchDetail = false;
-        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequest pageRequest = PageRequest.of(pageOptions.getPage(), pageOptions.getSize());
         if (sort) {
             String sortValue = request.getParameter("sort");
             Sort.Direction direction = sortBy && request.getParameter("sortBy").equals("descend") ? Sort.Direction.DESC : Sort.Direction.ASC;
-            switch (object.getValue()) {
-                case "search" -> {
-                    String name = (String) object.getData();
-                    find = teaService.findAllByNameLike(name, PageRequest.of(page, size, direction, sortValue));
+            switch (findOptions.getType()) {
+                case SEARCH -> {
+                    String name = (String) findOptions.getData();
+                    find = teaService.findAllByNameLike(name, PageRequest.of(pageOptions.getPage(), pageOptions.getSize(), direction, sortValue));
                     if (find.getTotalElements() == 0) {
                         searchDetail = true;
-                        find = teaService.findAllByNameLikeOrDescriptionLikeOrManufacturerLike(name, name, name, PageRequest.of(page, size, direction, sortValue));
+                        find = teaService.findAllByNameLikeOrDescriptionLikeOrManufacturerLike(name, name, name, PageRequest.of(pageOptions.getPage(), pageOptions.getSize(), direction, sortValue));
                     }
                 }
-                case "teaType" -> {
-                    TeaType type = (TeaType) object.getData();
-                    find = teaService.findAllByTeaType(type, PageRequest.of(page, size, direction, sortValue));
+                case TYPE -> {
+                    TeaType type = (TeaType) findOptions.getData();
+                    find = teaService.findAllByTeaType(type, PageRequest.of(pageOptions.getPage(), pageOptions.getSize(), direction, sortValue));
                 }
-                case "default" -> find = teaService.findAll(PageRequest.of(page, size, direction, sortValue));
+                case DEFAULT ->
+                        find = teaService.findAll(PageRequest.of(pageOptions.getPage(), pageOptions.getSize(), direction, sortValue));
 
             }
         } else {
-            switch (object.getValue()) {
-                case "search" -> {
-                    String name = (String) object.getData();
+            switch (findOptions.getType()) {
+                case SEARCH -> {
+                    String name = (String) findOptions.getData();
                     find = teaService.findAllByNameLike(name, pageRequest);
                     if (find.getTotalElements() == 0) {
                         searchDetail = true;
-                        find = teaService.findAllByNameLikeOrDescriptionLikeOrManufacturerLike(name, name, name, PageRequest.of(page, size));
+                        find = teaService.findAllByNameLikeOrDescriptionLikeOrManufacturerLike(name, name, name, PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
                     }
                 }
-                case "teaType" -> {
-                    TeaType type = (TeaType) object.getData();
+                case TYPE -> {
+                    TeaType type = (TeaType) findOptions.getData();
                     find = teaService.findAllByTeaType(type, pageRequest);
                 }
-                case "default" -> find = teaService.findAll(pageRequest);
+                case DEFAULT -> find = teaService.findAll(pageRequest);
             }
         }
         if (find == null) {
             find = teaService.findAll(pageRequest);
         }
         model.addAttribute("searchDetail", searchDetail);
-        model.addAttribute("teas", find);
+        model.addAttribute("page", find);
         model.addAttribute("teasCount", find.getTotalElements());
         model.addAttribute("search", "");
         model.addAttribute("types", TeaType.values());

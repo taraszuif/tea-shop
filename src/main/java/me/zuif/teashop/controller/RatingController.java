@@ -1,8 +1,8 @@
 package me.zuif.teashop.controller;
 
 import me.zuif.teashop.model.Rating;
-import me.zuif.teashop.model.User;
 import me.zuif.teashop.model.tea.Tea;
+import me.zuif.teashop.model.user.User;
 import me.zuif.teashop.service.impl.RatingService;
 import me.zuif.teashop.service.impl.TeaService;
 import me.zuif.teashop.service.impl.UserService;

@@ -46,9 +46,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/", "/home", "/index", "/help", "/register", "/cart/**").permitAll();
+        http.authorizeRequests().antMatchers("/about", "/", "/home", "/index", "/help", "/register", "/cart/**").permitAll();
         http.authorizeRequests().antMatchers("/user/**", "/rating/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')");
-        http.authorizeRequests().antMatchers("/about", "/admin/**", "/tea/new/**", "/tea/edit/**", "/tea/delete/**").access("hasRole('ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/admin/**", "/tea/new/**", "/tea/edit/**", "/tea/delete/**", "user/list").access("hasRole('ROLE_ADMIN')");
         http.authorizeRequests().and().formLogin().loginPage("/login").permitAll()
                 .and().logout().invalidateHttpSession(true).
                 clearAuthentication(true).
@@ -58,8 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/webjars/**", "/js/**", "/error/**"
-                , "/static/css/**", "/fonts/**", "/libs/**", "/img/**");
+        web.ignoring().antMatchers("templates/error/**", "/static/**");
     }
 
     @Autowired

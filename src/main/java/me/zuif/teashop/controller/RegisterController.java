@@ -1,6 +1,7 @@
 package me.zuif.teashop.controller;
 
-import me.zuif.teashop.model.User;
+import me.zuif.teashop.model.user.Role;
+import me.zuif.teashop.model.user.User;
 import me.zuif.teashop.service.impl.UserService;
 import me.zuif.teashop.validator.UserValidator;
 import org.slf4j.Logger;
@@ -12,6 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.time.LocalDateTime;
 
 @Controller
 public class RegisterController {
@@ -40,7 +43,8 @@ public class RegisterController {
             logger.error(String.valueOf(bindingResult.getFieldError()));
             return "register";
         }
-        userForm.setRole("USER");
+        userForm.setRole(Role.USER);
+        userForm.setAddTime(LocalDateTime.now());
         userService.save(userForm);
         userService.login(userForm.getUserName(), userForm.getPassword());
 

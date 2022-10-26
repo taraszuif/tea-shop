@@ -1,6 +1,6 @@
 package me.zuif.teashop.validator;
 
-import me.zuif.teashop.model.User;
+import me.zuif.teashop.model.user.User;
 import me.zuif.teashop.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,6 +30,10 @@ public class UserValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userName", "error.not_empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "error.not_empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "error.not_empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "error.not_empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "error.not_empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "city", "error.not_empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "age", "error.not_empty");
         // Username must have from 3 characters to 16
         if (user.getUserName().length() < 3) {
             errors.rejectValue("username", "register.error.username.less_3");

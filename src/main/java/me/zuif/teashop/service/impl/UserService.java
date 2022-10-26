@@ -1,11 +1,13 @@
 package me.zuif.teashop.service.impl;
 
-import me.zuif.teashop.model.User;
+import me.zuif.teashop.model.user.User;
 import me.zuif.teashop.repository.UserRepository;
 import me.zuif.teashop.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
@@ -63,5 +67,35 @@ public class UserService implements IUserService {
     @Override
     public User findById(String id) {
         return userRepository.findById(id).orElseThrow(ArithmeticException::new);
+    }
+
+    @Override
+    public Page<User> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public void delete(String id) {
+        userRepository.delete(findById(id));
+    }
+
+
+    @Override
+    public void update(String id, User newUser) {
+        Optional<User> foundOptional = userRepository.findById(id);
+        if (foundOptional.isPresent()) {
+            User found = foundOptional.get();
+            found.setPassword(newUser.getPassword());
+            found.setRole(newUser.getRole());
+            found.setEmail(newUser.getEmail());
+            found.setFirstName(newUser.getFirstName());
+            found.setLastName(newUser.getLastName());
+            found.setRatings(newUser.getRatings());
+            found.setBlocked(newUser.isBlocked());
+            found.setAge(newUser.getAge());
+            found.setCity(newUser.getCity());
+            found.setAddTime(newUser.getAddTime());
+        }
+        save(newUser);
     }
 }
