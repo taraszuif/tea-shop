@@ -3,8 +3,8 @@ package me.zuif.teashop.model.tea;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import me.zuif.teashop.model.Rating;
+import me.zuif.teashop.model.order.Order;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -17,10 +17,10 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Entity
-public class Tea {
+public class Tea implements Cloneable {
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -43,6 +43,24 @@ public class Tea {
     private LocalDateTime addTime;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "tea")
     private List<Rating> ratings;
+    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "teas")
+    private List<Order> orders;
+
+    @Override
+    public String toString() {
+        return "Tea{" +
+                "id='" + id + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", teaType=" + teaType +
+                ", name='" + name + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", count=" + count +
+                ", addTime=" + addTime +
+                ", ratings=" + ratings +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -62,5 +80,10 @@ public class Tea {
     @Override
     public int hashCode() {
         return Objects.hash(id, manufacturer, teaType, name, imageUrl, description, price, count, addTime);
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

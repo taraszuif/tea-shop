@@ -48,11 +48,6 @@ public class RatingService implements IRatingService {
     }
 
     @Override
-    public boolean existsByTea(Tea tea) {
-        return ratingRepository.existsByTea(tea);
-    }
-
-    @Override
     public void update(String id, Rating newRating) {
         Optional<Rating> foundOptional = ratingRepository.findById(id);
         if (foundOptional.isPresent()) {

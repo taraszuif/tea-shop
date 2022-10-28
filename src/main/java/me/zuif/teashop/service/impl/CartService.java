@@ -1,5 +1,7 @@
 package me.zuif.teashop.service.impl;
 
+import me.zuif.teashop.model.order.Order;
+import me.zuif.teashop.model.order.OrderDetails;
 import me.zuif.teashop.model.tea.Tea;
 import me.zuif.teashop.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,21 +65,30 @@ public class CartService implements ICartService {
                 .orElse(BigDecimal.ZERO);
     }
 
+
     @Override
-    public boolean checkout() {
-        Tea tea;
+    public Optional<Order> checkout() throws CloneNotSupportedException {
+        Order result = new Order();
+        result.setTotalPrice(totalPrice());
+        List<OrderDetails> orderTeas = new ArrayList<>();
         for (Map.Entry<Tea, Integer> entry : cart.entrySet()) {
-            tea = teaService.findById(entry.getKey().getId());
+            Tea tea = teaService.findById(entry.getKey().getId());
             if (tea.getCount() < entry.getValue())
-                return false;
+                return Optional.empty();
+            OrderDetails teaCount = new OrderDetails();
+            teaCount.setTea(tea);
+            teaCount.setCount(entry.getValue());
+            teaCount.setOrder(result);
+            orderTeas.add(teaCount);
             entry.getKey().setCount(tea.getCount() - entry.getValue());
         }
-
-        List<List<List<List<List<List<List<List<List<List<List<List<String>>>>>>>>>>>> list;
         teaService.saveAll(new ArrayList<>(cart.keySet()));
         teaService.flush();
+        result.setTeas(cart.keySet().stream().toList());
+        result.setDetails(orderTeas);
         cart.clear();
-        return true;
-        // здесь должно быть снятие денег и т.д
+        return Optional.of(result);
+
     }
+
 }

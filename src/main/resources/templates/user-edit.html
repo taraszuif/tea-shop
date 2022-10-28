@@ -12,7 +12,7 @@
         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
             <form autocomplete="off" class="form-signin" method="POST" th:object="${userForm}">
                 <fieldset>
-                    <h1 th:text="'Edit user'"></h1>
+                    <h1 th:text="#{user.edit}"></h1>
                     <div class="form-group">
                         <label th:text="#{user.username}"></label>
                         <input autofocus="true" class="form-control input-lg" required th:field="*{userName}"
@@ -49,21 +49,28 @@
                              th:if="${#fields.hasErrors('lastName')}"></div>
                     </div>
                     <div class="form-group">
-                        <label th:text="'City'"></label>
+                        <label th:text="#{user.city}"></label>
                         <input class="form-control input-lg" required th:field="*{city}" title="city"
                                type="text"/>
                         <div class="alert alert-danger error-alert" th:errors="*{city}"
                              th:if="${#fields.hasErrors('city')}"></div>
                     </div>
                     <div class="form-group">
-                        <label th:text="'Age'"></label>
+                        <label th:text="#{user.image}"></label>
+                        <input class="form-control input-lg" required th:field="*{imageUrl}" title="imageUrl"
+                               type="text"/>
+                        <div class="alert alert-danger error-alert" th:errors="*{imageUrl}"
+                             th:if="${#fields.hasErrors('imageUrl')}"></div>
+                    </div>
+                    <div class="form-group">
+                        <label th:text="#{user.age}"></label>
                         <input class="form-control input-lg" required th:field="*{age}" title="age"
                                type="number"/>
                         <div class="alert alert-danger error-alert" th:errors="*{age}"
                              th:if="${#fields.hasErrors('age')}"></div>
                     </div>
                     <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
-                        <label th:text="'Role'"></label>
+                        <label th:text="#{user.role}"></label>
                         <select autofocus="true" class="form-control input-lg" name="role"
                                 required th:field="*{role}">
                             <option value="USER">select</option>
@@ -73,22 +80,9 @@
                         <div class="alert alert-danger error-alert" th:errors="*{role}"
                              th:if="${#fields.hasErrors('role')}"></div>
                     </div>
-                    <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
-                        <label th:text="'Blocked'"></label>
-                        <select autofocus="true" class="form-control input-lg" name="blocked"
-                                required th:field="*{blocked}">
-                            <option value="false">select</option>
-                            <option th:text="true"
-                                    th:value="true"></option>
-                            <option th:text="false"
-                                    th:value="false"></option>
-                        </select>
-                        <div class="alert alert-danger error-alert" th:errors="*{role}"
-                             th:if="${#fields.hasErrors('role')}"></div>
-                    </div>
                     <p th:text="#{register.required}"></p>
 
-                    <input class="btn btn-outline-dark" th:value="'Confirm'" type="submit"/>
+                    <input class="btn btn-outline-dark" th:value="#{confirm}" type="submit"/>
                 </fieldset>
             </form>
         </div>

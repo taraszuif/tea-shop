@@ -18,7 +18,6 @@ public interface IRatingService {
 
     double getAverageRate(String teaId);
 
-    boolean existsByTea(Tea tea);
 
     void update(String id, Rating newRating);
 

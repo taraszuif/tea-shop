@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS public.users
     id character varying(255) COLLATE pg_catalog."default" NOT NULL,
     add_time timestamp without time zone NOT NULL,
     age integer NOT NULL,
-    blocked boolean NOT NULL,
+    image_url character varying(255) COLLATE pg_catalog."default",
     city character varying(255) COLLATE pg_catalog."default" NOT NULL,
     email character varying(255) COLLATE pg_catalog."default",
     first_name character varying(255) COLLATE pg_catalog."default",

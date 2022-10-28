@@ -16,9 +16,8 @@
                   th:object="${ratingForm}">
                 <fieldset>
 
-                    <h1 th:if="${method} == 'new'" th:text="#{admin.create.tea}"></h1>
-                    <h1 th:if="${method} == 'edit'" th:text="#{admin.edit.tea}"></h1>
-                    <h1 th:text="'Rating new/edit'"></h1>
+                    <h1 th:if="${method} == 'new'" th:text="#{create}"></h1>
+                    <h1 th:if="${method} == 'edit'" th:text="#{edit}"></h1>
 
                     <div class="form-group">
                         <label th:text="#{rating.rate}"></label>
@@ -44,12 +43,12 @@
                              th:if="${#fields.hasErrors('title')}"></div>
                     </div>
                     <input class="btn btn-outline-dark" th:action="@{/rating/new}" th:if="${method} == 'new'"
-                           th:value="#{tea.confirm}" type="submit"/>
+                           th:value="#{confirm}" type="submit"/>
                     <input class="btn btn-outline-dark" th:action="@{/tea/about/{ratingTeaId}}"
                            th:value="#{tea.cancel}" type="submit"/>
                     <input class="btn btn-outline-dark" th:action="@{/rating/edit/{ratingId}}"
                            th:if="${method} == 'edit'"
-                           th:value="#{tea.confirm}" type="submit"/>
+                           th:value="#{confirm}" type="submit"/>
                 </fieldset>
             </form>
         </div>

@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header-css">
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container ">
+    <div th:insert="fragments/pagination"></div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col" th:text="#{user.username}"></th>
+            <th scope="col" th:text="#{order.sum}"></th>
+            <th scope="col" th:text="#{order.count}"></th>
+            <th scope="col" th:text="#{order.addtime}"></th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${page}">
+            <td th:text="${order.getUser().getUserName()}"></td>
+            <td th:text="${order.getTotalPrice().doubleValue()}"></td>
+            <td th:text="${order.getTeas().size()}"></td>
+            <td th:text="${order.getAddTime().format(formatter)}"></td>
+            <td>
+                <form method="POST" sec:authorize="hasRole('ROLE_ADMIN')"
+                      th:action="@{'/order/delete/' + ${order.getId()}}">
+                    <button class="btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </form>
+            </td>
+            <td>
+                <button class="btn">
+                    <a th:href="@{'/order/about/' + ${order.getId()}}"><i class="fas fa-info-circle"></i></a>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+
+</html>

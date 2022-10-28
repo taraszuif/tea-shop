@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header-css">
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+    <h2 class="align-items-center d-flex justify-content-center" th:text="'Order'"></h2>
+    <div class="row align-items-center d-flex justify-content-center">
+        <h3 th:text="#{cart.total}+ ' ' + ${order.getOrder().getTotalPrice().doubleValue()} + '$'"></h3>
+    </div>
+    <div class="col card-deck ml-5 my-3" th:if="${!order.getOrder().getTeas().isEmpty()}">
+        <div class="card " th:each="tea : ${order.getOrder().teas}">
+            <a class="fill-div" th:href="@{'/tea/about/' + ${tea.getId()}}">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <img alt="Card image cap" class="card-img-top embed-responsive-item" style="object-fit: cover"
+                         th:src="${tea.getImageUrl()}">
+                </div>
+                <div class="card-body justify-content-center">
+                    <h4 class="card-title align-items-center d-flex justify-content-center"
+                        th:text="${tea.getName()}"></h4>
+                    <p class="card-text align-items-center d-flex justify-content-center"
+                       th:text="${tea.getDescription()}"></p>
+                    <p class="card-text align-items-md-end d-flex justify-content-center"
+                       th:text="${tea.getPrice()} + '$'"></p>
+                    <p class="card-text align-items-md-end d-flex justify-content-center"
+                       th:text="#{cart.count} + ${order.getDetailsMap().get(tea.getId()).getCount()}"></p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <h3 th:if="${order.getOrder().getTeas().isEmpty()}" th:text="#{order.no}"></h3>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+
+</html>

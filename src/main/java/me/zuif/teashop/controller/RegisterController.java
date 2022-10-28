@@ -45,6 +45,7 @@ public class RegisterController {
         }
         userForm.setRole(Role.USER);
         userForm.setAddTime(LocalDateTime.now());
+        userForm.setImageUrl("/images/user/profile.jpg");
         userService.save(userForm);
         userService.login(userForm.getUserName(), userForm.getPassword());
 

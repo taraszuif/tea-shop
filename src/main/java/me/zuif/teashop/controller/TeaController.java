@@ -78,7 +78,7 @@ public class TeaController {
             model.addAttribute("tea", tea);
             model.addAttribute("rating", ratingService.getDTO(tea));
             model.addAttribute("formatter", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            return "about-tea";
+            return "tea-about";
         } else {
             return "error/404";
         }

@@ -70,10 +70,13 @@ public class UserController {
     }
 
     @PostMapping("/user/edit/{id}")
-    public String editTea(@PathVariable("id") String id, @ModelAttribute("teaForm") User userForm, BindingResult bindingResult, Model model) {
+    public String editUser(@PathVariable("id") String id, @ModelAttribute("teaForm") User userForm, BindingResult bindingResult, Model model) {
         User before = userService.findById(userForm.getId());
         if (userForm.getPassword().isEmpty()) {
             userForm.setPassword(before.getPassword());
+        }
+        if (userForm.getRole() == null) {
+            userForm.setRole(before.getRole());
         }
         userForm.setAddTime(before.getAddTime());
 

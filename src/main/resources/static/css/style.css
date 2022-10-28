@@ -223,6 +223,11 @@ nav {
     transform: scale(1.5);
 }
 
+.img-rounded {
+    width: 60px;
+    height: 60px;
+}
+
 .card-deck {
     padding-left: 15px;
 }

@@ -9,7 +9,7 @@
 <body>
 
 <div th:replace="fragments/header :: header"></div>
-<div class="row text-center" style="padding-left: 25px; padding-top: 100px; position: absolute">
+<div class="row text-center" style="position: absolute; top:100px; left: 30px; right: auto; bottom: auto">
     <nav class="side-menu">
         <h3 th:text="#{home.type}"></h3>
         <div class="card" th:each="type: ${types}">

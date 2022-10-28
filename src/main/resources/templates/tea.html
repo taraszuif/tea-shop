@@ -14,8 +14,8 @@
             <form autocomplete="off" class="form" method="POST" th:object="${teaForm}">
                 <fieldset>
 
-                    <h1 th:if="${method} == 'new'" th:text="#{admin.create.tea}"></h1>
-                    <h1 th:if="${method} == 'edit'" th:text="#{admin.edit.tea}"></h1>
+                    <h1 th:if="${method} == 'new'" th:text="#{create}"></h1>
+                    <h1 th:if="${method} == 'edit'" th:text="#{edit}"></h1>
                     <div class="form-group">
                         <label th:text="#{tea.name}"></label>
                         <input autofocus="true" class="form-control input-lg" required th:field="*{name}" title="name"
@@ -75,11 +75,11 @@
                              th:if="${#fields.hasErrors('count')}"></div>
                     </div>
                     <input class="btn btn-outline-dark" th:action="@{/tea/new}" th:if="${method} == 'new'"
-                           th:value="#{tea.confirm}" type="submit"/>
+                           th:value="#{confirm}" type="submit"/>
                     <input class="btn btn-outline-dark" th:action="@{/home}"
                            th:value="#{tea.cancel}" type="submit"/>
                     <input class="btn btn-outline-dark" th:action="@{/tea/edit/{teaId}}" th:if="${method} == 'edit'"
-                           th:value="#{tea.confirm}" type="submit"/>
+                           th:value="#{confirm}" type="submit"/>
                 </fieldset>
             </form>
         </div>

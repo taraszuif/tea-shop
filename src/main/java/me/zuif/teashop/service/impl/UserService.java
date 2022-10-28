@@ -91,7 +91,7 @@ public class UserService implements IUserService {
             found.setFirstName(newUser.getFirstName());
             found.setLastName(newUser.getLastName());
             found.setRatings(newUser.getRatings());
-            found.setBlocked(newUser.isBlocked());
+
             found.setAge(newUser.getAge());
             found.setCity(newUser.getCity());
             found.setAddTime(newUser.getAddTime());

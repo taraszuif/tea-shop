@@ -42,16 +42,16 @@
        th:text="#{tea.add}"></a>
     <a class="btn btn-lg btn-outline-info btn-block d-flex align-items-center justify-content-center"
        th:href="${'/rating/new/' + tea.getId()}"
-       th:text="'New rating'"></a>
+       th:text="#{rating.new}"></a>
 </div>
 
 <div class="container text-center" th:if="${!rating.isEmpty()}">
-    <h1 th:text="'Ratings'"></h1>
+    <h1 th:text="#{rating.page}"></h1>
 
     <div class="row justify-content-around">
         <div class="col-sm-3">
             <div class="rating-block">
-                <h4>Average user rating</h4>
+                <h4 th:text="#{rating.average}"></h4>
                 <h2 class="bold padding-bottom-7"
                     th:text="${#numbers.formatDecimal(rating.get().average, 0, 2)}"><small>/
                     5</small></h2>
@@ -70,7 +70,7 @@
             </div>
         </div>
         <div class="col-sm-3">
-            <h4 th:text="'Rating breakdown'"></h4>
+            <h4 th:text="#{rating.breakdown}"></h4>
             <div class="pull-left" th:each="i : ${#numbers.sequence(5, 1, -1)}">
                 <div class="pull-left" style="width:35px; line-height:1;">
                     <div style="height:9px; margin:5px 0;" th:text="${i}"><span class="fas fa-star"></span></div>
@@ -105,7 +105,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
-                        <img class="img-rounded" src="http://dummyimage.com/60x60/666/ffffff&text=No+Image">
+                        <img class="img-rounded" th:src="${usrRating.getUser().getImageUrl()}">
                         <div class="review-block-name"><a href="#" th:text="${usrRating.getUser().getUserName()}"></a>
                         </div>
                         <div class="review-block-date" th:text="${usrRating.getAddTime().format(formatter)} "><br/>
@@ -137,7 +137,7 @@
     </div>
 </div>
 <div class="container text-center" th:if="${rating.isEmpty()}">
-    <h1 th:text="'No ratings'"></h1>
+    <h1 th:text="#{rating.no}"></h1>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 

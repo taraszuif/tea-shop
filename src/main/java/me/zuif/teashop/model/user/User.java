@@ -2,7 +2,10 @@ package me.zuif.teashop.model.user;
 
 import lombok.Data;
 import me.zuif.teashop.model.Rating;
+import me.zuif.teashop.model.order.Order;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -32,14 +35,18 @@ public class User {
     @NotNull
     private String city;
     @NotNull
-    private boolean blocked;
-    @NotNull
     private Role role;
     @NotNull
     private LocalDateTime addTime;
     @Email
     @NotBlank
     private String email;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @NotBlank
+    private String imageUrl;
+    @OneToMany(mappedBy = "user")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Rating> ratings;
+    @OneToMany(mappedBy = "user")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Order> orders;
 }
