@@ -1,1 +1,0 @@
-web: java -jar target/teashop-1.0-SNAPSHOT.jar
