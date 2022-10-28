@@ -91,7 +91,8 @@ public class UserController {
     public String deleteUser(@PathVariable("id") String id) {
         User user = userService.findById(id);
         if (user != null) {
-            logger.debug(String.format("Tea with id: %s successfully deleted.", user.getId()));
+            logger.debug(String.format("User with id: %s successfully deleted.", user.getId()));
+            userService.delete(id);
             return "redirect:/user/list";
         } else {
             return "error/404";

@@ -37,9 +37,11 @@
             <td th:text="${user.getRole()}"></td>
             <td th:text="${user.getAddTime().format(formatter)}"></td>
             <td>
-                <button class="btn">
-                    <a method="POST" th:href="@{'/user/delete/' + ${user.getId()}}"><i class="fas fa-times"></i></a>
-                </button>
+                <form method="POST" th:action="@{'/user/delete/' + ${user.getId()}}">
+                    <button class="btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </form>
             </td>
             <td>
                 <button class="btn">
