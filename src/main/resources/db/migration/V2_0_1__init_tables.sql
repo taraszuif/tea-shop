@@ -16,9 +16,6 @@ CREATE TABLE IF NOT EXISTS public.tea
                            )
     TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.tea
-    OWNER to postgres;
-
 CREATE TABLE IF NOT EXISTS public.users
 (
     id character varying(255) COLLATE pg_catalog."default" NOT NULL,
@@ -38,9 +35,6 @@ CREATE TABLE IF NOT EXISTS public.users
                            OIDS = FALSE
                            )
     TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.users
-    OWNER to postgres;
 
 CREATE TABLE IF NOT EXISTS public.rating
 (
@@ -65,6 +59,3 @@ CREATE TABLE IF NOT EXISTS public.rating
                            OIDS = FALSE
                            )
     TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.rating
-    OWNER to postgres;
