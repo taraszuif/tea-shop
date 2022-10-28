@@ -43,10 +43,9 @@ public class User {
     private String email;
     @NotBlank
     private String imageUrl;
-    @OneToMany(mappedBy = "user")
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Rating> ratings;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Order> orders;
 }

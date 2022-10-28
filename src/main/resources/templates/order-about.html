@@ -13,24 +13,27 @@
     <div class="row align-items-center d-flex justify-content-center">
         <h3 th:text="#{cart.total}+ ' ' + ${order.getOrder().getTotalPrice().doubleValue()} + '$'"></h3>
     </div>
-    <div class="col card-deck ml-5 my-3" th:if="${!order.getOrder().getTeas().isEmpty()}">
-        <div class="card " th:each="tea : ${order.getOrder().teas}">
-            <a class="fill-div" th:href="@{'/tea/about/' + ${tea.getId()}}">
-                <div class="embed-responsive embed-responsive-16by9">
-                    <img alt="Card image cap" class="card-img-top embed-responsive-item" style="object-fit: cover"
-                         th:src="${tea.getImageUrl()}">
-                </div>
-                <div class="card-body justify-content-center">
-                    <h4 class="card-title align-items-center d-flex justify-content-center"
-                        th:text="${tea.getName()}"></h4>
-                    <p class="card-text align-items-center d-flex justify-content-center"
-                       th:text="${tea.getDescription()}"></p>
-                    <p class="card-text align-items-md-end d-flex justify-content-center"
-                       th:text="${tea.getPrice()} + '$'"></p>
-                    <p class="card-text align-items-md-end d-flex justify-content-center"
-                       th:text="#{cart.count} + ${order.getDetailsMap().get(tea.getId()).getCount()}"></p>
-                </div>
-            </a>
+    <div class="row">
+        <div class="col col-sm-auto col-lg-3" th:each="tea : ${order.getOrder().teas}"
+             th:if="${!order.getOrder().getTeas().isEmpty()}">
+            <div class="card text-center h-75">
+                <a class="fill-div" th:href="@{'/tea/about/' + ${tea.getId()}}">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <img alt="Card image cap" class="card-img-top embed-responsive-item" style="object-fit: cover"
+                             th:src="${tea.getImageUrl()}">
+                    </div>
+                    <div class="card-body justify-content-center">
+                        <h4 class="card-title align-items-center d-flex justify-content-center"
+                            th:text="${tea.getName()}"></h4>
+                        <p class="card-text align-items-center d-flex justify-content-center"
+                           th:text="${tea.getDescription()}"></p>
+                        <p class="card-text align-items-md-end d-flex justify-content-center"
+                           th:text="${tea.getPrice()} + '$'"></p>
+                        <p class="card-text align-items-md-end d-flex justify-content-center"
+                           th:text="#{cart.count} + ${order.getDetailsMap().get(tea.getId()).getCount()}"></p>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
     <h3 th:if="${order.getOrder().getTeas().isEmpty()}" th:text="#{order.no}"></h3>

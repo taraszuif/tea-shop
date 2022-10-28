@@ -41,9 +41,9 @@ public class Tea implements Cloneable {
     private int count;
     @NotNull
     private LocalDateTime addTime;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tea")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tea")
     private List<Rating> ratings;
-    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "teas")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, mappedBy = "teas")
     private List<Order> orders;
 
     @Override
