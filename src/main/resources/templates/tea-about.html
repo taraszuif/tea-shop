@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header-css">
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+<div class="container text-center">
+    <h1 th:text="#{about.tea}"></h1>
+    <div class="row justify-content-around">
+        <div class="col">
+            <div class="card text-center">
+
+                <div class="embed-responsive">
+                    <img alt="Card image cap" class="card-img-top embed-responsive-16by9"
+                         style="object-fit: cover"
+                         th:src="${tea.getImageUrl()}">
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-center justify-content-center">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"
+                    th:text="#{about.tea.name} + ': ' + ${tea.getName()}"></li>
+                <li class="list-group-item"
+                    th:text="#{about.tea.description} + ': ' + ${tea.getDescription()}"></li>
+                <li class="list-group-item"
+                    th:text="#{about.tea.price} + ': ' + ${tea.getPrice()} + '$'"></li>
+                <li class="list-group-item"
+                    th:text="#{about.tea.addtime} + ': ' + ${tea.getAddTime().format(formatter)}"></li>
+                <li class="list-group-item"
+                    th:text="#{about.tea.count} + ': ' + ${tea.getCount()}"></li>
+                <li class="list-group-item"
+                    th:text="#{about.tea.manufacturer} + ': ' + ${tea.getManufacturer()}"></li>
+            </ul>
+        </div>
+    </div>
+    <a class="btn btn-lg btn-outline-info btn-block d-flex align-items-center justify-content-center"
+       th:href="${'/cart/add/' + tea.getId()}"
+       th:text="#{tea.add}"></a>
+    <a class="btn btn-lg btn-outline-info btn-block d-flex align-items-center justify-content-center"
+       th:href="${'/rating/new/' + tea.getId()}"
+       th:text="#{rating.new}"></a>
+</div>
+
+<div class="container text-center" th:if="${!rating.isEmpty()}">
+    <h1 th:text="#{rating.page}"></h1>
+
+    <div class="row justify-content-around">
+        <div class="col-sm-3">
+            <div class="rating-block">
+                <h4 th:text="#{rating.average}"></h4>
+                <h2 class="bold padding-bottom-7"
+                    th:text="${#numbers.formatDecimal(rating.get().average, 0, 2)}"><small>/
+                    5</small></h2>
+                <div class="btn-group" th:each="i : ${#numbers.sequence(1, 5, 1)}">
+                    <button aria-label="Left Align" class="btn btn-default btn-grey btn-sm"
+                            th:if="${i} > ${rating.get().average}"
+                            type="button">
+                        <span aria-hidden="true" class="fas fa-star"></span>
+                    </button>
+                    <button aria-label="Left Align" class="btn btn-warning btn-sm"
+                            th:if="${i} <= ${rating.get().average}"
+                            type="button">
+                        <span aria-hidden="true" class="fas fa-star"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <h4 th:text="#{rating.breakdown}"></h4>
+            <div class="pull-left" th:each="i : ${#numbers.sequence(5, 1, -1)}">
+                <div class="pull-left" style="width:35px; line-height:1;">
+                    <div style="height:9px; margin:5px 0;" th:text="${i}"><span class="fas fa-star"></span></div>
+                </div>
+                <div class="pull-left" style="width:180px;">
+                    <div class="progress" style="height:9px; margin:8px 0; ">
+                        <div aria-valuemin="0" class="progress-bar progress-bar-success" role="progressbar"
+                             th:attr="aria-valuenow=${i}, aria-valuemax=5"
+                             th:style="'width:' + ((${rating.get().getRateTotalCount().get(i)} / (${rating.get().getRatingsCount()})) * 100) +'%'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-sm-7">
+            <hr/>
+            <div class="review-block" th:each="usrRating : ${rating.get().getRatingList()}">
+                <div sec:authorize="isAuthenticated()">
+                    <div th:if=" ${usrRating.getUser().getUserName().equals(#authentication.getPrincipal().getUsername())}">
+                        <form method="POST" th:action="@{'/rating/delete/' + ${usrRating.getId()}}">
+                            <button class="btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </form>
+                        <button class="btn">
+                            <a th:href="@{'/rating/edit/' + ${usrRating.getId()}}"><i class="fas fa-wrench"></i></a>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <img class="img-rounded" th:src="${usrRating.getUser().getImageUrl()}">
+                        <div class="review-block-name"><a href="#" th:text="${usrRating.getUser().getUserName()}"></a>
+                        </div>
+                        <div class="review-block-date" th:text="${usrRating.getAddTime().format(formatter)} "><br/>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="btn-group review-block-rate" th:each="i : ${#numbers.sequence(1, 5, 1)}">
+                            <button aria-label="Left Align" class="btn btn-default btn-grey btn-sm"
+                                    th:if="${i} > ${usrRating.rate}"
+                                    type="button">
+                                <span aria-hidden="true" class="fas fa-star"></span>
+                            </button>
+                            <button aria-label="Left Align" class="btn btn-warning btn-sm"
+                                    th:if="${i} <= ${usrRating.rate}"
+                                    type="button">
+                                <span aria-hidden="true" class="fas fa-star"></span>
+                            </button>
+                        </div>
+                        <div class="review-block-title"
+                             th:text="${usrRating.getTitle()}"></div>
+                        <div class="review-block-description"
+                             th:text="${usrRating.getComment()}">
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container text-center" th:if="${rating.isEmpty()}">
+    <h1 th:text="#{rating.no}"></h1>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header-css">
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container justify-content-center">
+    <div class="alert alert-danger" role="alert"
+         th:if="${noTeas != null and noTeas}"
+         th:text="#{cart.noteas}"></div>
+    <h2 class="align-items-center d-flex justify-content-center" th:text="#{cart.title}"></h2>
+    <div class="row align-items-center d-flex justify-content-center">
+        <h3 th:text="#{cart.total} + ' ' + ${totalPrice} + '$'"></h3>
+        <a class="col-md-1" sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_USER') "
+           th:href="@{'/cart/checkout'}">
+            <button class="btn btn-success" th:text="#{cart.checkout}" type="button"></button>
+        </a>
+        <a class="col-md-1" sec:authorize="!isAuthenticated() "
+           th:href="@{/login}">
+            <button class="btn btn-success" th:text="#{cart.login}" type="button"></button>
+        </a>
+    </div>
+    <div class="row">
+        <div class="col col-sm-auto col-lg-3" style="width: 270px; height: 545px;" th:each="tea : ${teas.keySet()}"
+             th:if="${!teas.isEmpty()}">
+            <div class="card text-center h-75">
+                <a class="fill-div" th:href="@{'/tea/about/' + ${tea.getId()}}">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <img alt="Card image cap" class="card-img-top embed-responsive-item" style="object-fit: cover"
+                             th:src="${tea.getImageUrl()}">
+                    </div>
+                    <div class="card-body justify-content-center">
+                        <h4 class="card-title "
+                            th:text="${tea.getName()}"></h4>
+                        <p class="card-text "
+                           th:text="${tea.getDescription()}"></p>
+                        <p class="card-text "
+                           th:text="${tea.getPrice()} + '$'"></p>
+                        <p class="card-text "
+                           th:text="#{cart.count} + ' '+ ${teas.get(tea)}"></p>
+                    </div>
+                </a>
+                <a class="btn btn-primary align-items-center d-flex justify-content-center"
+                   th:href="@{'/cart/remove/{id}'(id=${tea.getId()})}"
+                   th:text="#{cart.remove}">
+                </a>
+
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-center d-flex justify-content-center" th:if="${teas.isEmpty()}">
+        <h2 th:text="#{cart.empty}"></h2>
+    </div>
+
+    <br>
+    <a class="row align-items-center d-flex justify-content-center"
+       th:href="@{'/cart/clear/'}">
+        <button class="btn btn-info align-items-center d-flex justify-content-center" th:text="#{cart.clear}"
+                type="button"></button>
+    </a>
+
+    <br>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+
+</html>
