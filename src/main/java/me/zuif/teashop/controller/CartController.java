@@ -47,7 +47,7 @@ public class CartController {
     public String addTeaToCart(@PathVariable("id") String id) {
         Tea tea = teaService.findById(id);
         if (tea != null) {
-            cartService.addTea(tea);
+            cartService.addTea(id);
             logger.debug(String.format("Tea with id: %s added to shopping cart.", id));
         }
         return "redirect:/home";
@@ -57,7 +57,7 @@ public class CartController {
     public String removeTeaFromCart(@PathVariable("id") String id) {
         Tea tea = teaService.findById(id);
         if (tea != null) {
-            cartService.removeTea(tea);
+            cartService.removeTea(id);
             logger.debug(String.format("Tea with id: %s removed from shopping cart.", id));
         } else {
 

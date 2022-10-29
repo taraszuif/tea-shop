@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface ICartService {
-    void addTea(Tea tea);
+    void addTea(String id);
 
-    void removeTea(Tea tea);
+    void removeTea(String id);
 
     void clear();
 

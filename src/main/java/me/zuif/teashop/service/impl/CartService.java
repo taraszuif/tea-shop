@@ -13,12 +13,13 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Transactional
 public class CartService implements ICartService {
-    private final Map<Tea, Integer> cart = new LinkedHashMap<>();
+    private final Map<String, Integer> cart = new LinkedHashMap<>();
     private final TeaService teaService;
 
     @Autowired
@@ -27,22 +28,23 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public void addTea(Tea tea) {
-        if (cart.containsKey(tea)) {
-            cart.put(tea, cart.get(tea) + 1);
+    public void addTea(String id) {
+
+        if (cart.containsKey(id)) {
+            cart.put(id, cart.get(id) + 1);
         } else {
-            cart.put(tea, 1);
+            cart.put(id, 1);
         }
 
     }
 
     @Override
-    public void removeTea(Tea tea) {
-        if (cart.containsKey(tea)) {
-            if (cart.get(tea) > 1)
-                cart.replace(tea, cart.get(tea) - 1);
-            else if (cart.get(tea) == 1) {
-                cart.remove(tea);
+    public void removeTea(String id) {
+        if (cart.containsKey(id)) {
+            if (cart.get(id) > 1)
+                cart.replace(id, cart.get(id) - 1);
+            else if (cart.get(id) == 1) {
+                cart.remove(id);
             }
         }
     }
@@ -54,13 +56,13 @@ public class CartService implements ICartService {
 
     @Override
     public Map<Tea, Integer> getCart() {
-        return Collections.unmodifiableMap(cart);
+        return Collections.unmodifiableMap(cart.entrySet().stream().collect(Collectors.toMap(e -> teaService.findById(e.getKey()), e -> e.getValue())));
     }
 
     @Override
     public BigDecimal totalPrice() {
         return cart.entrySet().stream()
-                .map(k -> k.getKey().getPrice().multiply(BigDecimal.valueOf(k.getValue())))
+                .map(k -> teaService.findById(k.getKey()).getPrice().multiply(BigDecimal.valueOf(k.getValue())))
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO);
     }
@@ -71,8 +73,8 @@ public class CartService implements ICartService {
         Order result = new Order();
         result.setTotalPrice(totalPrice());
         List<OrderDetails> orderTeas = new ArrayList<>();
-        for (Map.Entry<Tea, Integer> entry : cart.entrySet()) {
-            Tea tea = teaService.findById(entry.getKey().getId());
+        for (Map.Entry<String, Integer> entry : cart.entrySet()) {
+            Tea tea = teaService.findById(entry.getKey());
             if (tea.getCount() < entry.getValue())
                 return Optional.empty();
             OrderDetails teaCount = new OrderDetails();
@@ -80,11 +82,12 @@ public class CartService implements ICartService {
             teaCount.setCount(entry.getValue());
             teaCount.setOrder(result);
             orderTeas.add(teaCount);
-            entry.getKey().setCount(tea.getCount() - entry.getValue());
+            teaService.findById(entry.getKey()).setCount(tea.getCount() - entry.getValue());
         }
-        teaService.saveAll(new ArrayList<>(cart.keySet()));
+        List<Tea> cartSet = cart.keySet().stream().map(s -> teaService.findById(s)).collect(Collectors.toList());
+        teaService.saveAll(new ArrayList<>(cartSet));
         teaService.flush();
-        result.setTeas(cart.keySet().stream().toList());
+        result.setTeas(cartSet);
         result.setDetails(orderTeas);
         cart.clear();
         return Optional.of(result);
