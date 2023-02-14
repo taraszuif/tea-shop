@@ -25,10 +25,14 @@ public class Rating {
     private String comment;
     @NotNull
     private LocalDateTime addTime;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tea_id")
     private Tea tea;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public void dismissUser() {
+        this.user = null;
+    }
 }

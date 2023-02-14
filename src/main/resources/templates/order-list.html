@@ -21,7 +21,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="order : ${page}">
+        <tr th:each="order : ${page}" th:if="${order.getUser() != null}">
             <td th:text="${order.getUser().getUserName()}"></td>
             <td th:text="${order.getTotalPrice().doubleValue()}"></td>
             <td th:text="${order.getTeas().size()}"></td>

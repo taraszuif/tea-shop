@@ -18,11 +18,9 @@ import java.util.Objects;
 @Entity
 public class OrderDetails {
     @Id
-
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-
     private int count;
     @OneToOne()
     @JoinColumn(name = "tea_id")

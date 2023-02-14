@@ -4,7 +4,6 @@ import me.zuif.teashop.dto.OrderDTO;
 import me.zuif.teashop.model.order.Order;
 import me.zuif.teashop.model.order.OrderDetails;
 import me.zuif.teashop.repository.OrderRepository;
-import me.zuif.teashop.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,15 +15,13 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class OrderService implements IOrderService {
+public class OrderServiceImpl implements me.zuif.teashop.service.IOrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderDetailsService orderDetailsService;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, OrderDetailsService orderDetailsService) {
+    public OrderServiceImpl(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
-        this.orderDetailsService = orderDetailsService;
     }
 
     @Override

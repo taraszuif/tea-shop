@@ -3,13 +3,14 @@ package me.zuif.teashop.controller;
 import me.zuif.teashop.model.Rating;
 import me.zuif.teashop.model.tea.Tea;
 import me.zuif.teashop.model.user.User;
-import me.zuif.teashop.service.impl.RatingService;
-import me.zuif.teashop.service.impl.TeaService;
-import me.zuif.teashop.service.impl.UserService;
+import me.zuif.teashop.service.IRatingService;
+import me.zuif.teashop.service.ITeaService;
+import me.zuif.teashop.service.IUserService;
 import me.zuif.teashop.validator.RatingValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,17 +26,16 @@ import java.util.Optional;
 @Controller
 public class RatingController {
     private static final Logger logger = LoggerFactory.getLogger(RatingController.class);
-    private final RatingService ratingService;
-    private final UserService userService;
-    private final TeaService teaService;
+    private final IRatingService ratingService;
+    private final IUserService userService;
+    private final ITeaService teaService;
     private final RatingValidator ratingValidator;
 
     @Autowired
-    public RatingController(TeaService teaService, RatingService ratingService, UserService userService, RatingValidator ratingValidator) {
+    public RatingController(IRatingService ratingService, @Qualifier("userServiceImpl") IUserService userService, ITeaService teaService, RatingValidator ratingValidator) {
         this.ratingService = ratingService;
-        this.teaService = teaService;
         this.userService = userService;
-
+        this.teaService = teaService;
         this.ratingValidator = ratingValidator;
     }
 

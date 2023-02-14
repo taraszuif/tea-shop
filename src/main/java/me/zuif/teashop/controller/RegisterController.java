@@ -2,11 +2,12 @@ package me.zuif.teashop.controller;
 
 import me.zuif.teashop.model.user.Role;
 import me.zuif.teashop.model.user.User;
-import me.zuif.teashop.service.impl.UserService;
+import me.zuif.teashop.service.IUserService;
 import me.zuif.teashop.validator.UserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,11 +20,11 @@ import java.time.LocalDateTime;
 @Controller
 public class RegisterController {
     private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
-    private final UserService userService;
+    private final IUserService userService;
     private final UserValidator userValidator;
 
     @Autowired
-    public RegisterController(UserService userService, UserValidator userValidator) {
+    public RegisterController(@Qualifier("userServiceImpl") IUserService userService, UserValidator userValidator) {
         this.userService = userService;
 
         this.userValidator = userValidator;
@@ -47,8 +48,6 @@ public class RegisterController {
         userForm.setAddTime(LocalDateTime.now());
         userForm.setImageUrl("/images/user/profile.jpg");
         userService.save(userForm);
-        userService.login(userForm.getUserName(), userForm.getPassword());
-
-        return "redirect:/home";
+        return "redirect:/login";
     }
 }

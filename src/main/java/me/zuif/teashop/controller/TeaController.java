@@ -2,8 +2,8 @@ package me.zuif.teashop.controller;
 
 import me.zuif.teashop.model.tea.Tea;
 import me.zuif.teashop.model.tea.TeaType;
-import me.zuif.teashop.service.impl.RatingService;
-import me.zuif.teashop.service.impl.TeaService;
+import me.zuif.teashop.service.IRatingService;
+import me.zuif.teashop.service.ITeaService;
 import me.zuif.teashop.validator.TeaValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +22,12 @@ import java.time.format.DateTimeFormatter;
 @Controller
 public class TeaController {
     private static final Logger logger = LoggerFactory.getLogger(TeaController.class);
-    private final TeaService teaService;
-    private final RatingService ratingService;
+    private final ITeaService teaService;
+    private final IRatingService ratingService;
     private final TeaValidator teaValidator;
 
     @Autowired
-    public TeaController(TeaService teaService, RatingService ratingService, TeaValidator teaValidator) {
+    public TeaController(ITeaService teaService, IRatingService ratingService, TeaValidator teaValidator) {
         this.teaService = teaService;
         this.ratingService = ratingService;
         this.teaValidator = teaValidator;

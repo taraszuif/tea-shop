@@ -90,7 +90,8 @@
     <div class="row justify-content-center">
         <div class="col-sm-7">
             <hr/>
-            <div class="review-block" th:each="usrRating : ${rating.get().getRatingList()}">
+            <div class="review-block" th:each="usrRating : ${rating.get().getRatingList()}"
+                 th:if="${usrRating.getUser() != null}">
                 <div sec:authorize="isAuthenticated()">
                     <div th:if=" ${usrRating.getUser().getUserName().equals(#authentication.getPrincipal().getUsername())}">
                         <form method="POST" th:action="@{'/rating/delete/' + ${usrRating.getId()}}">

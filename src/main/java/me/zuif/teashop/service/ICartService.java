@@ -18,5 +18,5 @@ public interface ICartService {
 
     BigDecimal totalPrice();
 
-    Optional<Order> checkout() throws CloneNotSupportedException;
+    Optional<Order> checkout();
 }

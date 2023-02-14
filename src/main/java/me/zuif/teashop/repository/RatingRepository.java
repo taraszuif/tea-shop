@@ -16,6 +16,7 @@ public interface RatingRepository extends JpaRepository<Rating, String> {
 
     Optional<Rating> findById(String id);
 
+
     @Query("select avg(r.rate)from Rating r where r.tea.id=:teaId")
     double getAverageRate(String teaId);
 

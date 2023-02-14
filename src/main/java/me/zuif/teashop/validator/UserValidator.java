@@ -1,7 +1,7 @@
 package me.zuif.teashop.validator;
 
 import me.zuif.teashop.model.user.User;
-import me.zuif.teashop.service.impl.UserService;
+import me.zuif.teashop.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -10,11 +10,11 @@ import org.springframework.validation.Validator;
 
 @Component
 public class UserValidator implements Validator {
-    private final UserService userService;
+    private final UserServiceImpl UserServiceImpl;
 
     @Autowired
-    public UserValidator(UserService userService) {
-        this.userService = userService;
+    public UserValidator(UserServiceImpl UserServiceImpl) {
+        this.UserServiceImpl = UserServiceImpl;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class UserValidator implements Validator {
     public void validate(Object o, Errors errors) {
         User user = (User) o;
 
-        //Username, password and email can't me empty or contain whitespace
+        //Username, password and email can't be empty or contain whitespace
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userName", "error.not_empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "error.not_empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "error.not_empty");
@@ -34,7 +34,7 @@ public class UserValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "error.not_empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "city", "error.not_empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "age", "error.not_empty");
-        // Username must have from 3 characters to 16
+        // Username must have from 3 characters to 24
         if (user.getUserName().length() < 3) {
             errors.rejectValue("username", "register.error.username.less_3");
         }
@@ -42,11 +42,11 @@ public class UserValidator implements Validator {
             errors.rejectValue("username", "register.error.username.over_24");
         }
         //Username can't be duplicated
-        if (userService.findByUsername(user.getUserName()) != null) {
+        if (UserServiceImpl.findByUsername(user.getUserName()) != null) {
             errors.rejectValue("userName", "register.error.duplicated.username");
         }
         //Email can't be duplicated
-        if (userService.findByEmail(user.getEmail()) != null) {
+        if (UserServiceImpl.findByEmail(user.getEmail()) != null) {
             errors.rejectValue("email", "register.error.duplicated.email");
         }
         //Password must have at least 8 characters and max 32
