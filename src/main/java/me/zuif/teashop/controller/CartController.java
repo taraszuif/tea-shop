@@ -4,13 +4,13 @@ package me.zuif.teashop.controller;
 import me.zuif.teashop.model.order.Order;
 import me.zuif.teashop.model.tea.Tea;
 import me.zuif.teashop.model.user.User;
-import me.zuif.teashop.service.impl.CartService;
-import me.zuif.teashop.service.impl.OrderService;
-import me.zuif.teashop.service.impl.TeaService;
-import me.zuif.teashop.service.impl.UserService;
+import me.zuif.teashop.service.ICartService;
+import me.zuif.teashop.service.IOrderService;
+import me.zuif.teashop.service.ITeaService;
+import me.zuif.teashop.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,13 +23,12 @@ import java.util.Optional;
 @Controller
 public class CartController {
     private static final Logger logger = LoggerFactory.getLogger(CartController.class);
-    private final CartService cartService;
-    private final TeaService teaService;
-    private final OrderService orderService;
-    private final UserService userService;
+    private final ICartService cartService;
+    private final ITeaService teaService;
+    private final IOrderService orderService;
+    private final IUserService userService;
 
-    @Autowired
-    public CartController(CartService cartService, TeaService teaService, OrderService orderService, UserService userService) {
+    public CartController(ICartService cartService, ITeaService teaService, IOrderService orderService, @Qualifier("userServiceImpl") IUserService userService) {
         this.cartService = cartService;
         this.teaService = teaService;
         this.orderService = orderService;
@@ -74,12 +73,9 @@ public class CartController {
     @GetMapping("/cart/checkout")
     public String cartCheckout(Model model) {
         Optional<Order> orderOptional;
-        try {
-            orderOptional = cartService.checkout();
-        } catch (CloneNotSupportedException e) {
-            logger.error("Error when trying to create an order - cannot clone tea");
-            return "home";
-        }
+
+        orderOptional = cartService.checkout();
+
         if (orderOptional.isEmpty()) {
             model.addAttribute("noTeas", true);
             model.addAttribute("teas", cartService.getCart());

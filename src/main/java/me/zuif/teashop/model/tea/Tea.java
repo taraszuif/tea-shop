@@ -67,14 +67,14 @@ public class Tea implements Cloneable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tea tea = (Tea) o;
-        return count == tea.count &&
-                Objects.equals(id, tea.id) &&
-                Objects.equals(manufacturer, tea.manufacturer) &&
-                teaType == tea.teaType && Objects.equals(name, tea.name) &&
-                Objects.equals(imageUrl, tea.imageUrl) &&
-                Objects.equals(description, tea.description) &&
-                Objects.equals(price, tea.price) &&
-                Objects.equals(addTime, tea.addTime);
+        return
+                Objects.equals(id, tea.id) && count == tea.count &&
+                        Objects.equals(manufacturer, tea.manufacturer) &&
+                        teaType == tea.teaType && Objects.equals(name, tea.name) &&
+                        Objects.equals(imageUrl, tea.imageUrl) &&
+                        Objects.equals(description, tea.description) &&
+                        Objects.equals(price, tea.price) &&
+                        Objects.equals(addTime, tea.addTime);
     }
 
     @Override

@@ -2,7 +2,6 @@ package me.zuif.teashop.service.impl;
 
 import me.zuif.teashop.model.user.User;
 import me.zuif.teashop.repository.UserRepository;
-import me.zuif.teashop.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +18,15 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UserService implements IUserService {
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+public class UserServiceImpl implements me.zuif.teashop.service.IUserService {
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository userRepository;
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailsService, AuthenticationManager authenticationManager) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailsService, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userDetailsService = userDetailsService;
@@ -66,7 +65,7 @@ public class UserService implements IUserService {
 
     @Override
     public User findById(String id) {
-        return userRepository.findById(id).orElseThrow(ArithmeticException::new);
+        return userRepository.findById(id).orElseThrow(IllegalArgumentException::new);
     }
 
     @Override

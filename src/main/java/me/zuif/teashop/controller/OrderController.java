@@ -4,13 +4,13 @@ import me.zuif.teashop.dto.OrderDTO;
 import me.zuif.teashop.model.order.Order;
 import me.zuif.teashop.model.user.Role;
 import me.zuif.teashop.model.user.User;
-import me.zuif.teashop.service.impl.OrderService;
-import me.zuif.teashop.service.impl.TeaService;
-import me.zuif.teashop.service.impl.UserService;
+import me.zuif.teashop.service.IOrderService;
+import me.zuif.teashop.service.IUserService;
 import me.zuif.teashop.utils.PageOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,16 +26,17 @@ import java.util.Optional;
 
 @Controller
 public class OrderController {
-    private static final Logger logger = LoggerFactory.getLogger(CartController.class);
-    private final UserService userService;
-    private final OrderService orderService;
-    private final TeaService teaService;
+    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
+    private final IUserService userService;
+    private final IOrderService orderService;
+
 
     @Autowired
-    public OrderController(UserService userService, OrderService orderService, TeaService teaService) {
+    public OrderController(@Qualifier("userServiceImpl") IUserService userService, IOrderService orderService) {
+
+
         this.userService = userService;
         this.orderService = orderService;
-        this.teaService = teaService;
     }
 
     @GetMapping("/order/about/{id}")

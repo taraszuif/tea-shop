@@ -14,11 +14,11 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class RatingService implements IRatingService {
+public class RatingServiceImpl implements IRatingService {
     private final RatingRepository ratingRepository;
 
     @Autowired
-    public RatingService(RatingRepository ratingRepository) {
+    public RatingServiceImpl(RatingRepository ratingRepository) {
         this.ratingRepository = ratingRepository;
     }
 

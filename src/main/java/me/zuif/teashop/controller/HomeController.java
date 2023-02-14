@@ -2,7 +2,7 @@ package me.zuif.teashop.controller;
 
 import me.zuif.teashop.model.tea.Tea;
 import me.zuif.teashop.model.tea.TeaType;
-import me.zuif.teashop.service.impl.TeaService;
+import me.zuif.teashop.service.ITeaService;
 import me.zuif.teashop.utils.FindOptions;
 import me.zuif.teashop.utils.PageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +17,19 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class HomeController {
-    private final TeaService teaService;
+    private final ITeaService teaService;
 
     @Autowired
-    public HomeController(TeaService teaService) {
+    public HomeController(ITeaService teaService) {
         this.teaService = teaService;
     }
+
 
     @GetMapping(value = {"/", "/index", "/home"})
     public String home(HttpServletRequest request, Model model) {
         PageOptions pageOptions = PageOptions.retrieveFromRequest(request);
         FindOptions findOptions = FindOptions.retrieveFromRequest(request);
+
         Page<Tea> find = null;
         boolean searchDetail = false;
         PageRequest pageRequest;
@@ -44,7 +46,7 @@ public class HomeController {
                 find = teaService.findAllByNameLike(name, pageRequest);
                 if (find.getTotalElements() == 0) {
                     searchDetail = true;
-                    find = teaService.findAllByNameLikeOrDescriptionLikeOrManufacturerLike(name, name, name, pageRequest);
+                    find = teaService.findAllByDescriptionLikeOrManufacturerLike(name, name, pageRequest);
                 }
             }
             case TYPE -> {
@@ -56,6 +58,7 @@ public class HomeController {
         if (find == null) {
             find = teaService.findAll(pageRequest);
         }
+
         model.addAttribute("searchDetail", searchDetail);
         model.addAttribute("page", find);
         model.addAttribute("teasCount", find.getTotalElements());

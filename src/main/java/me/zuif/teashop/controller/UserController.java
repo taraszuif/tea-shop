@@ -2,12 +2,12 @@ package me.zuif.teashop.controller;
 
 import me.zuif.teashop.model.user.Role;
 import me.zuif.teashop.model.user.User;
-import me.zuif.teashop.service.impl.UserService;
+import me.zuif.teashop.service.IUserService;
 import me.zuif.teashop.utils.PageOptions;
-import me.zuif.teashop.validator.UserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -24,14 +24,12 @@ import java.time.format.DateTimeFormatter;
 
 @Controller
 public class UserController {
-    private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
-    private final UserService userService;
-    private final UserValidator userValidator;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final IUserService userService;
 
     @Autowired
-    public UserController(UserService userService, UserValidator userValidator) {
+    public UserController(@Qualifier("userServiceImpl") IUserService userService) {
         this.userService = userService;
-        this.userValidator = userValidator;
     }
 
     @GetMapping("/user")
@@ -87,7 +85,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/user/delete/{id}")
+    @PostMapping("user/delete/{id}")
     public String deleteUser(@PathVariable("id") String id) {
         User user = userService.findById(id);
         if (user != null) {

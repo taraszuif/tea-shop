@@ -19,7 +19,7 @@ public interface TeaRepository extends JpaRepository<Tea, String> {
 
     Page<Tea> findAllByNameLike(String name, Pageable pageable);
 
-    Page<Tea> findAllByNameLikeOrDescriptionLikeOrManufacturerLike(String name, String description, String manufacturer, Pageable pageable);
+    Page<Tea> findAllByDescriptionLikeOrManufacturerLike(String description, String manufacturer, Pageable pageable);
 
     Page<Tea> findAllByTeaType(TeaType teaType, Pageable pageable);
 

@@ -3,7 +3,6 @@ package me.zuif.teashop.service.impl;
 import me.zuif.teashop.model.tea.Tea;
 import me.zuif.teashop.model.tea.TeaType;
 import me.zuif.teashop.repository.TeaRepository;
-import me.zuif.teashop.service.ITeaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,11 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TeaService implements ITeaService {
+public class TeaServiceImpl implements me.zuif.teashop.service.ITeaService {
     private final TeaRepository teaRepository;
 
     @Autowired
-    public TeaService(TeaRepository teaRepository) {
+    public TeaServiceImpl(TeaRepository teaRepository) {
         this.teaRepository = teaRepository;
     }
 
@@ -69,8 +68,8 @@ public class TeaService implements ITeaService {
     }
 
     @Override
-    public Page<Tea> findAllByNameLikeOrDescriptionLikeOrManufacturerLike(String name, String description, String manufacturer, Pageable pageable) {
-        return teaRepository.findAllByNameLikeOrDescriptionLikeOrManufacturerLike(name, description, manufacturer, pageable);
+    public Page<Tea> findAllByDescriptionLikeOrManufacturerLike(String description, String manufacturer, Pageable pageable) {
+        return teaRepository.findAllByDescriptionLikeOrManufacturerLike( description, manufacturer, pageable);
     }
 
 

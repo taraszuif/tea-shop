@@ -24,7 +24,7 @@ public interface ITeaService {
 
     Tea findById(String id);
 
-    Page<Tea> findAllByNameLikeOrDescriptionLikeOrManufacturerLike(String name, String description, String manufacturer, Pageable pageable);
+    Page<Tea> findAllByDescriptionLikeOrManufacturerLike( String description, String manufacturer, Pageable pageable);
 
     Page<Tea> findAll(Pageable pageable);
 
