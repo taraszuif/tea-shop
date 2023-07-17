@@ -1,33 +1,35 @@
-# Интернет магазин чая
-
-Есть 3 типа пользователей - гость, покупатель и администратор.
-## Права
-  ### Гость
-  Может просматривать товары при помощи поиска с фильтрами, описанными ниже
-  ### Покупатель
-  Имеет права **гостя**, может оформлять заказы, оставлять отзывы
-  ### Администратор
-  Имеет права **гостя** и **покупателя**, а также может добавлять, удалять и изменять описание/характеристики товаров, удалять и редактировать пользователей
-## Сортировка и поиск
-  Поиск товара происходит по названию.
-  Есть возможность отсортировать товары по 
-  - Цене
-  - Количество в наличии
-  - Датой добавления
-## Добавление товара
-  При добавлении товара, администратор должен указать характеристики: 
-  1. цена
-  2. Производителя
-  3. Вид чая
-  4. количество
-  5. Название
-  6. описание
-  7. ссылку на изображение
-## Личный кабинет и выбор товара
-  Пользователь выбирает товар, добавляет его в корзину, далее может сформировать заказ
-  ### Регистрация
-  Необходимо указать email, возраст, имя/фамилию и пароль
-  ### Логин 
-  Необходимо указать пароль и email
-## Отзывы
-  Авторизованные пользователи могу оставлять отзыв на товар в виде оценки от 1 до 5 и комментария.
+# Online tea shop
+Used technologies: 
+Backend: Java, Spring Boot, Spring Security, Spring JPA, Hibernate, PostgreSQL, Lombok, Logback 
+Frontend: HTML, CSS, Thymeleaf, Bootstrap
+There are 3 types of users - guest, user and administrator.
+## Permissions
+  ### Guest
+  Search content with filters described below
+  ### User
+  Has **guest** permissions, can place orders, leave reviews
+  ### Administrator
+  Has the permissions of **guest** and **user**, and can include, delete and change the description/characteristics of products, delete and significantly change users
+## Sorting and searching
+  The product is searched by name.
+  It is possible to sort products by
+  - Price
+  - Quantity in stock
+  - Date added
+## Adding a product
+When adding a product, the administrator must specify the characteristics:
+  1. Price
+  2. Manufacturer
+  3. Type of tea
+  4. Quantity
+  5. Title
+  6. Description
+  7. Picture link
+## Personal account and product selection
+  The user selects a product, adds it to the cart, then can place an order
+  ### Registration
+  You must enter your email, age, first/last name and password
+  ### Login
+  You must provide a password and email
+## Reviews
+  Authorized users can leave feedback on the product in the form of a rating from 1 to 5 and a comment.
