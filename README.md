@@ -1,7 +1,9 @@
 # Online tea shop
 Used technologies: 
-Backend: Java, Spring Boot, Spring Security, Spring JPA, Hibernate, PostgreSQL, Lombok, Logback 
-Frontend: HTML, CSS, Thymeleaf, Bootstrap
+- Backend: Java, Spring Boot, Spring Security, Spring JPA, Hibernate, PostgreSQL, Lombok, Logback 
+- Frontend: HTML, CSS, Thymeleaf, Bootstrap
+
+
 There are 3 types of users - guest, user and administrator.
 ## Permissions
   ### Guest
